@@ -1,0 +1,2081 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diagnóstico G.E.N.I.O.S. · somosgenios.com</title>
+  <meta name="description" content="Mide tu reputación profesional con el sistema G.E.N.I.O.S. 24 conductas, tu perfil, tu hexágono y un plan de acción en 6 semanas." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --panel: #ffffff;
+      --panel-2: #fbfaf7;
+      --ink: #172033;
+      --muted: #687086;
+      --line: #e3ded4;
+      --primary: #1c335c;
+      --primary-2: #25477f;
+      --accent: #b88a3b;
+      --accent-2: #f0ddba;
+      --accent-light: #fdf5e6;
+      --success: #22715c;
+      --success-light: #e8f4f0;
+      --danger: #a84538;
+      --shadow: 0 18px 50px rgba(28,51,92,.12);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1280px;
+      font-synthesis-weight: none;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--ink);
+      background: #f4f1eb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .shell { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(165deg, #131e30 0%, #1c335c 55%, #1f3d5e 100%);
+      padding: clamp(36px, 6vw, 72px) 0 clamp(28px, 5vw, 56px);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='39' fill='none' stroke='rgba(255,255,255,.04)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -120px; right: -80px;
+      width: 520px; height: 520px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(184,138,59,.3), rgba(184,138,59,0) 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(184,138,59,.18);
+      border: 1px solid rgba(184,138,59,.35);
+      border-radius: 999px;
+      padding: 5px 12px 5px 8px;
+      margin-bottom: 20px;
+      color: #ecd9b7;
+      font-size: .78rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .12em;
+    }
+    .hero-badge-dot {
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(184,138,59,.25);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(184,138,59,.25); }
+      50% { box-shadow: 0 0 0 8px rgba(184,138,59,.1); }
+    }
+
+    h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.4rem, 6.5vw, 5.2rem);
+      line-height: .92;
+      letter-spacing: -.04em;
+      color: white;
+      margin-bottom: 18px;
+    }
+    h1 em { color: var(--accent-2); font-style: normal; }
+
+    .hero-desc {
+      font-size: clamp(.95rem, 1.8vw, 1.15rem);
+      color: rgba(255,255,255,.75);
+      max-width: 640px;
+      line-height: 1.65;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+
+    /* Hero stats */
+    .hero-stats {
+      display: flex; flex-direction: column; gap: 12px;
+      align-self: flex-end;
+      padding-bottom: 4px;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 14px 16px;
+      text-align: center;
+      white-space: nowrap;
+      min-width: 110px;
+    }
+    .hero-stat b {
+      display: block;
+      font-size: 1.7rem; font-weight: 900;
+      letter-spacing: -.04em;
+      color: var(--accent-2);
+      line-height: 1;
+    }
+    .hero-stat span {
+      display: block;
+      font-size: .72rem; font-weight: 700;
+      color: rgba(255,255,255,.55);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-top: 4px;
+    }
+
+    /* ── STICKY PROGRESS BAR ── */
+    .sticky-bar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(28,51,92,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 0;
+    }
+    .sticky-inner {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 0;
+    }
+    .sticky-tabs {
+      display: flex; gap: 4px;
+      flex: 1;
+      overflow: auto;
+      scrollbar-width: none;
+    }
+    .sticky-tabs::-webkit-scrollbar { display: none; }
+    .s-tab {
+      padding: 7px 14px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.6);
+      font-size: .82rem; font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      transition: all .15s ease;
+    }
+    .s-tab:hover { color: white; background: rgba(255,255,255,.08); }
+    .s-tab.active { color: var(--accent-2); background: rgba(184,138,59,.15); border-color: rgba(184,138,59,.25); }
+
+    .sticky-progress {
+      display: flex; align-items: center; gap: 10px;
+      padding-left: 16px;
+      border-left: 1px solid rgba(255,255,255,.1);
+      flex-shrink: 0;
+    }
+    .sp-track {
+      width: 100px; height: 6px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.12);
+      overflow: hidden;
+    }
+    .sp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #d5b675);
+      border-radius: 99px;
+      transition: width .3s ease;
+      width: 0%;
+    }
+    .sp-label {
+      font-size: .78rem; font-weight: 800;
+      color: rgba(255,255,255,.7);
+      white-space: nowrap;
+    }
+    .sp-label.complete { color: #7dd9b5; }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 24px;
+      align-items: start;
+      padding: 28px 0 64px;
+    }
+    .main { display: grid; gap: 20px; }
+    .sidebar { position: sticky; top: 56px; display: grid; gap: 16px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(28,51,92,.09);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px rgba(28,51,92,.07);
+      overflow: hidden;
+    }
+    .card-pad { padding: clamp(18px, 3vw, 26px); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      border: 0; border-radius: 999px;
+      padding: 11px 20px;
+      font-weight: 800; font-size: .88rem;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      user-select: none; white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary { background: var(--accent); color: #16120b; box-shadow: 0 8px 22px rgba(184,138,59,.3); }
+    .btn-primary:hover { box-shadow: 0 12px 28px rgba(184,138,59,.4); }
+    .btn-ghost-white { background: rgba(255,255,255,.1); color: white; border: 1px solid rgba(255,255,255,.18); }
+    .btn-ghost-white:hover { background: rgba(255,255,255,.18); }
+    .btn-outline { background: transparent; color: var(--primary); border: 1px solid rgba(28,51,92,.22); }
+    .btn-outline:hover { background: rgba(28,51,92,.05); }
+    .btn-danger { background: #fff0ed; color: var(--danger); border: 1px solid rgba(168,69,56,.2); }
+    .btn-dark { background: var(--primary); color: white; }
+    .btn-sm { padding: 8px 14px; font-size: .8rem; }
+
+    /* ── SECTION HEADS ── */
+    .eyebrow {
+      color: var(--accent); text-transform: uppercase;
+      letter-spacing: .12em; font-size: .72rem; font-weight: 900;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+      letter-spacing: -.03em;
+      color: var(--ink); line-height: 1.1;
+    }
+    h3 { font-size: 1rem; font-weight: 800; color: var(--ink); line-height: 1.2; }
+    .small { color: var(--muted); font-size: .9rem; }
+
+    /* ── INTRO SCALE CARD ── */
+    .scale-legend {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .scale-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      background: var(--panel-2);
+    }
+    .scale-item .val {
+      display: block;
+      width: 32px; height: 32px;
+      margin: 0 auto 6px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      font-weight: 900; font-size: .95rem;
+      line-height: 32px;
+    }
+    .scale-item .lbl { font-size: .72rem; color: var(--muted); line-height: 1.2; }
+
+    /* ── PROGRESS ── */
+    .progress-wrap { display: grid; gap: 8px; margin-bottom: 20px; }
+    .progress-meta {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .progress-track {
+      width: 100%; height: 10px;
+      border-radius: 99px;
+      background: #ece6db;
+      border: 1px solid rgba(28,51,92,.07);
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), #d5b675);
+      transition: width .3s ease;
+    }
+
+    /* ── DIMENSION ── */
+    .dimension {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      margin-top: 24px;
+    }
+    .dimension:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+
+    .dimension-header {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+      cursor: pointer;
+    }
+    .dim-letter {
+      width: 52px; height: 52px;
+      display: grid; place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(145deg, var(--primary), var(--primary-2));
+      color: white;
+      font-weight: 950; font-size: 1.35rem;
+      box-shadow: 0 8px 20px rgba(28,51,92,.2);
+      flex-shrink: 0;
+    }
+    .dim-info h3 { margin-bottom: 2px; }
+    .dim-plan { font-size: .82rem; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+
+    .subtotal-badge {
+      display: inline-flex; align-items: center;
+      background: #f4ead8;
+      color: #4b3412;
+      border: 1px solid rgba(184,138,59,.25);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900; font-size: .85rem;
+      white-space: nowrap;
+      transition: background .2s ease;
+    }
+    .subtotal-badge.high { background: #e5f3ed; color: #1a5940; border-color: rgba(34,113,92,.25); }
+    .subtotal-badge.low { background: #fdf0ed; color: #7a2a22; border-color: rgba(168,69,56,.22); }
+
+    /* ── QUESTIONS ── */
+    .question-list { display: grid; gap: 12px; }
+    .question {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      display: grid; gap: 12px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .question.answered {
+      border-color: rgba(184,138,59,.3);
+      background: #fffdf8;
+    }
+    .question p { margin: 0; font-size: .92rem; line-height: 1.55; }
+    .q-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 7px;
+      background: var(--primary); color: white;
+      font-size: .7rem; font-weight: 900;
+      flex-shrink: 0; margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .scale input { position: absolute; opacity: 0; pointer-events: none; }
+    .scale label {
+      cursor: pointer;
+      user-select: none;
+      display: grid; place-items: center;
+      height: 44px;
+      border: 1.5px solid rgba(28,51,92,.13);
+      border-radius: 13px;
+      background: #faf8f4;
+      font-weight: 900; font-size: .92rem;
+      color: var(--primary);
+      transition: all .15s ease;
+      position: relative;
+    }
+    .scale label:hover {
+      background: var(--accent-2);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(184,138,59,.18);
+    }
+    .scale input:checked + label {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(28,51,92,.22);
+      transform: translateY(-1px);
+    }
+    .scale-help {
+      display: flex; justify-content: space-between;
+      color: var(--muted); font-size: .73rem; margin-top: 2px;
+    }
+
+    /* ── RESULT SIDEBAR ── */
+    .result-header {
+      padding: 18px 18px 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: .74rem; font-weight: 800;
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid rgba(34,113,92,.2);
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 999px;
+      background: var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .kpi {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 10px;
+    }
+    .kpi span { display: block; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; }
+    .kpi b { display: block; margin-top: 5px; font-size: 1.4rem; font-weight: 900; letter-spacing: -.03em; color: var(--primary); }
+    .kpi small { display: block; color: var(--muted); margin-top: 1px; font-size: .72rem; }
+
+    .quote-block {
+      background: linear-gradient(135deg, rgba(28,51,92,.06), rgba(184,138,59,.06));
+      border-left: 3px solid var(--accent);
+      border-radius: 0 14px 14px 0;
+      padding: 14px 16px;
+      margin: 14px 0;
+      font-family: Georgia, serif;
+      font-size: .95rem;
+      color: #3a2d14;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .info-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-top: 12px;
+    }
+    .info-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: var(--panel-2);
+    }
+    .info-box .label { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; display: block; margin-bottom: 4px; }
+    .info-box .val { font-weight: 800; font-size: .92rem; color: var(--ink); }
+    .info-box p { color: var(--muted); font-size: .82rem; margin-top: 4px; }
+
+    /* ── RADAR ── */
+    .radar-wrap { display: grid; place-items: center; padding: 8px 0; }
+    #radarSvg { width: 100%; max-width: 300px; height: auto; overflow: visible; }
+    .radar-axis { stroke: rgba(28,51,92,.15); stroke-width: 1; }
+    .radar-grid { fill: none; stroke: rgba(28,51,92,.1); stroke-width: 1; }
+    .radar-shape { fill: rgba(184,138,59,.28); stroke: var(--accent); stroke-width: 2.5; }
+    .radar-dot { fill: var(--primary); stroke: white; stroke-width: 2.5; }
+    .radar-label { fill: var(--ink); font-size: 11.5px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
+    .radar-ring-label { fill: var(--muted); font-size: 9px; text-anchor: middle; }
+
+    /* ── BARS ── */
+    .bars { display: grid; gap: 8px; margin-top: 10px; }
+    .bar-row { display: grid; grid-template-columns: 26px 1fr 42px; gap: 8px; align-items: center; }
+    .bar-letter { color: var(--primary); font-weight: 900; font-size: .82rem; }
+    .bar-rail { height: 8px; border-radius: 99px; background: #eee8dd; overflow: hidden; }
+    .bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 99px; transition: width .35s ease; }
+    .bar-score { color: var(--muted); text-align: right; font-size: .75rem; font-weight: 700; }
+
+    /* ── RISK / NEXT STEP ── */
+    .next-block {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--panel-2);
+      margin-top: 10px;
+      display: grid; gap: 8px;
+    }
+    .next-block:first-child { margin-top: 14px; }
+    .next-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .7rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted);
+    }
+    .next-label svg { flex-shrink: 0; }
+    .next-text { font-size: .88rem; color: var(--ink); line-height: 1.5; }
+    .next-text em { font-style: italic; color: var(--primary); font-weight: 700; }
+
+    /* ── PROFILE ── */
+    .profile-banner {
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .profile-name-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; opacity: .65; margin-bottom: 6px; }
+    .profile-name { font-family: Georgia, serif; font-size: 1.05rem; line-height: 1.2; margin-bottom: 8px; }
+    .profile-meta { font-size: .82rem; opacity: .78; line-height: 1.5; }
+
+    .report-actions {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+    }
+
+    /* ── PLAN ── */
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .week-card {
+      position: relative;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      display: grid; gap: 10px;
+      transition: border-color .2s ease;
+    }
+    .week-card.done { background: var(--success-light); border-color: rgba(34,113,92,.25); }
+    .week-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .week-card h3 { font-size: .88rem; line-height: 1.3; flex: 1; }
+    .week-check {
+      width: 22px; height: 22px; flex-shrink: 0;
+      accent-color: var(--success); cursor: pointer;
+      border-radius: 6px;
+    }
+    .week-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+    .week-card p strong { color: var(--ink); }
+
+    /* ── ACTIONS ── */
+    .actions-list { display: grid; gap: 10px; margin-top: 16px; }
+    .action-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      padding: 14px;
+      transition: border-color .2s ease;
+    }
+    .action-item:hover { border-color: rgba(184,138,59,.35); background: #fffdf8; }
+    .action-num {
+      width: 36px; height: 36px;
+      display: grid; place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--primary), var(--primary-2));
+      color: white; font-weight: 900; font-size: .88rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(28,51,92,.18);
+    }
+    .action-text strong { display: block; margin-bottom: 3px; font-size: .9rem; color: var(--ink); }
+    .action-text span { font-size: .83rem; color: var(--muted); line-height: 1.45; }
+
+    /* ── COMPLETION SCREEN ── */
+    .complete-banner {
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1c335c, #22715c);
+      color: white;
+      padding: 22px;
+      text-align: center;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .complete-banner.show { display: block; }
+    .complete-icon { font-size: 2.2rem; margin-bottom: 10px; }
+    .complete-banner h3 { color: white; font-size: 1.2rem; font-family: Georgia, serif; margin-bottom: 6px; }
+    .complete-banner p { opacity: .8; font-size: .88rem; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid rgba(28,51,92,.09);
+      color: var(--muted);
+      font-size: .88rem;
+      text-align: center;
+    }
+    .footer a { color: var(--accent); font-weight: 700; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; right: 20px; bottom: 20px; z-index: 200;
+      background: var(--primary);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(28,51,92,.22);
+      transform: translateY(24px);
+      opacity: 0; pointer-events: none;
+      transition: all .22s cubic-bezier(.4,0,.2,1);
+      max-width: 300px;
+      font-size: .88rem; font-weight: 700;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .print-report { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1060px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; grid-template-columns: repeat(2, 1fr); }
+      .sidebar .card:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 740px) {
+      .shell { width: min(100% - 20px, var(--max)); }
+      .hero-inner { grid-template-columns: 1fr; gap: 20px; }
+      .hero-stats { flex-direction: row; justify-content: flex-start; }
+      .hero-stat { min-width: 80px; }
+      .plan-grid, .sidebar, .kpi-grid { grid-template-columns: 1fr; }
+      .info-row { grid-template-columns: 1fr; }
+      .scale { gap: 5px; }
+      .scale label { height: 42px; }
+      .scale-legend { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    }
+    @media (max-width: 480px) {
+      .dimension-header { grid-template-columns: 46px 1fr; }
+      .subtotal-badge { grid-column: 1 / -1; justify-self: start; }
+      .sticky-progress { display: none; }
+    }
+    @media print {
+      .hero, .sticky-bar, #diagnostico, #plan, #mejorar, .sidebar, .footer, .toast { display: none !important; }
+      .layout { display: block; padding: 0; }
+      .main { display: block; }
+      .print-report { display: block; padding: 32px; }
+    }
+
+    /* ── ACCESSIBILITY ── */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="shell">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Diagnóstico de reputación profesional
+        </div>
+        <h1>SOMOS<br><em>G·E·N·I·O·S</em></h1>
+        <p class="hero-desc">Mide las seis conductas que definen cómo te ven en la sala donde se toman las decisiones que importan. Responde lo que realmente haces, no lo que crees que deberías hacer.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#diagnostico">Empezar diagnóstico</a>
+          <button class="btn btn-ghost-white" id="btnScrollResults" type="button">Ver resultado en vivo</button>
+          <button class="btn btn-ghost-white btn-sm" id="btnResetTop" type="button">Reiniciar</button>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>24</b><span>conductas medidas</span></div>
+        <div class="hero-stat"><b>6</b><span>semanas de plan</span></div>
+        <div class="hero-stat"><b>5</b><span>perfiles G.E.N.I.O.S.</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STICKY BAR -->
+<nav class="sticky-bar" aria-label="Navegación y progreso">
+  <div class="shell sticky-inner">
+    <div class="sticky-tabs">
+      <a class="s-tab active" href="#diagnostico">Diagnóstico</a>
+      <a class="s-tab" href="#resultado">Resultado</a>
+      <a class="s-tab" href="#plan">Plan 6 semanas</a>
+      <a class="s-tab" href="#mejorar">Tu letra de entrada</a>
+    </div>
+    <div class="sticky-progress">
+      <div class="sp-track"><div class="sp-fill" id="spFill"></div></div>
+      <span class="sp-label" id="spLabel">0 / 24</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="shell layout">
+  <main class="main">
+
+    <!-- INTRO CARD -->
+    <section class="card card-pad" id="intro">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2 style="margin-bottom:10px;">Responde las 24 afirmaciones</h2>
+      <p class="small" style="margin-bottom:16px;">Cada respuesta mide una conducta observable, no intención ni potencial. Tus respuestas se guardan localmente en este navegador y no se envían a ningún servidor.</p>
+      <div class="scale-legend">
+        <div class="scale-item"><span class="val">1</span><span class="lbl">Casi nunca</span></div>
+        <div class="scale-item"><span class="val">2</span><span class="lbl">Pocas veces</span></div>
+        <div class="scale-item"><span class="val">3</span><span class="lbl">Algunas veces</span></div>
+        <div class="scale-item"><span class="val">4</span><span class="lbl">Con frecuencia</span></div>
+        <div class="scale-item"><span class="val">5</span><span class="lbl">Siempre o casi siempre</span></div>
+      </div>
+    </section>
+
+    <!-- DIAGNÓSTICO -->
+    <section class="card card-pad" id="diagnostico">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px;">
+        <div>
+          <div class="eyebrow">Diagnóstico G.E.N.I.O.S.</div>
+          <h2>Completa tu medición</h2>
+        </div>
+        <button class="btn btn-danger btn-sm" id="btnReset" type="button">Reiniciar</button>
+      </div>
+      <div class="progress-wrap" aria-live="polite">
+        <div class="progress-meta">
+          <span class="small"><strong id="answeredText">0 de 24 respondidas</strong></span>
+          <span class="small" id="progressPct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <div id="completeBanner" class="complete-banner">
+        <div class="complete-icon">🎯</div>
+        <h3>¡Diagnóstico completo!</h3>
+        <p>Tu hexágono, perfil y plan de 6 semanas están listos. Revisa el panel a la derecha.</p>
+      </div>
+
+      <div id="questionContainer"></div>
+    </section>
+
+    <!-- PLAN -->
+    <section class="card card-pad" id="plan">
+      <div class="eyebrow">Plan de 6 semanas</div>
+      <h2>Una letra por semana</h2>
+      <p class="small" style="margin-top:6px;" id="planIntro">Completa el diagnóstico para personalizar tu plan.</p>
+      <div class="plan-grid" id="planGrid"></div>
+    </section>
+
+    <!-- LETRA DE ENTRADA -->
+    <section class="card card-pad" id="mejorar">
+      <div class="eyebrow">Cómo mejorar</div>
+      <h2>Tu letra de entrada</h2>
+      <p class="small" style="margin-top:6px;" id="entryIntro">Completa el diagnóstico para ver acciones concretas.</p>
+      <div class="actions-list" id="entryActions"></div>
+    </section>
+
+    <section class="print-report" id="printReport"></section>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="resultado">
+
+    <!-- RESULTADO VIVO -->
+    <section class="card" aria-live="polite">
+      <div class="result-header">
+        <div>
+          <div class="eyebrow">Tu resultado</div>
+          <h3>En tiempo real</h3>
+        </div>
+        <span class="live-pill"><span class="live-dot"></span> En vivo</span>
+      </div>
+      <div class="card-pad" style="padding-top:14px;">
+        <div class="kpi-grid">
+          <div class="kpi"><span>Respondidas</span><b id="kpiAnswered">0</b><small>de 24</small></div>
+          <div class="kpi"><span>Puntaje</span><b id="kpiScore">0</b><small>máx. 120</small></div>
+          <div class="kpi"><span>Nivel</span><b id="kpiLevel">—</b><small id="kpiLevelName">Completa</small></div>
+        </div>
+        <div class="quote-block" id="levelQuote">Responde las 24 afirmaciones para ver tu nivel y tu frase.</div>
+        <div class="info-row">
+          <div class="info-box">
+            <span class="label">Tu fortaleza</span>
+            <div class="val" id="strengthText">—</div>
+            <p>Mayor promedio.</p>
+          </div>
+          <div class="info-box">
+            <span class="label">Tu foco</span>
+            <div class="val" id="focusText">—</div>
+            <p>Letra de entrada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HEXÁGONO -->
+    <section class="card card-pad">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <div>
+          <div class="eyebrow">Hexágono</div>
+          <h3>Mapa G.E.N.I.O.S.</h3>
+        </div>
+      </div>
+      <div class="radar-wrap">
+        <svg id="radarSvg" viewBox="0 0 320 320" role="img" aria-label="Radar del diagnóstico"></svg>
+      </div>
+      <div class="bars" id="bars"></div>
+    </section>
+
+    <!-- RIESGO Y PRIORIDAD -->
+    <section class="card card-pad">
+      <div class="eyebrow">Tu siguiente paso</div>
+      <h3 style="margin-bottom:4px;">Riesgo, prioridad y pregunta</h3>
+      <div class="next-block">
+        <span class="next-label">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm.75 8.75h-1.5v-1.5h1.5v1.5zm0-3h-1.5V5h1.5v2.75z" fill="currentColor"/></svg>
+          Riesgo
+        </span>
+        <div class="next-text" id="riskText">Completa el diagnóstico para ver tu riesgo.</div>
+      </div>
+      <div class="next-block">
+        <span class="next-label">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 6H15L11 9.5L12.5 14.5L8 11.5L3.5 14.5L5 9.5L1 6H6L8 1Z" fill="currentColor"/></svg>
+          Prioridad
+        </span>
+        <div class="next-text" id="priorityText">Completa el diagnóstico para ver tu prioridad.</div>
+      </div>
+      <div class="next-block">
+        <span class="next-label">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm.75 9.5h-1.5v-4.5h1.5v4.5zm0-6h-1.5v-1.5h1.5v1.5z" fill="currentColor"/></svg>
+          Pregunta de avance
+        </span>
+        <div class="next-text" id="questionText">Completa el diagnóstico para ver tu pregunta.</div>
+      </div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="card card-pad">
+      <div class="eyebrow">Paso 4</div>
+      <h3>Tu perfil G.E.N.I.O.S.</h3>
+      <div class="profile-banner" id="profileBanner">
+        <div class="profile-name-label">Perfil sugerido</div>
+        <div class="profile-name" id="profileName">Completa las 24 respuestas</div>
+        <div class="profile-meta" id="profileBody">El sistema sugerirá un perfil a partir de tus seis promedios. No es una etiqueta fija.</div>
+      </div>
+      <div class="report-actions">
+        <button class="btn btn-outline btn-sm" id="btnCopy" type="button">📋 Copiar reporte</button>
+        <button class="btn btn-outline btn-sm" id="btnDownload" type="button">⬇ Descargar PDF</button>
+        <button class="btn btn-dark btn-sm" id="btnPrint" type="button">Imprimir</button>
+      </div>
+    </section>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="shell">
+    Basado en el libro <em>«Somos G.E.N.I.O.S.»</em> de Kevin Lück · <a href="https://somosgenios.com" target="_blank" rel="noopener">somosgenios.com</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const STORAGE_KEY = 'somos_genios_webapp_v2';
+  const PLAN_KEY    = 'somos_genios_plan_v2';
+
+  const dimensions = [
+    {
+      letter: 'G', name: 'Generar valor', etiqueta: 'VALOR',
+      plan: 'Define qué decisión habilita cada entrega. Pasa de informar a entregar algo accionable.',
+      questions: [
+        'Antes de comenzar un entregable, me pregunto qué decisión, solución o avance debe producir.',
+        'Conecto mis tareas con el objetivo final del equipo, no solo con la instrucción que recibí.',
+        'Transformo información o actividad en una recomendación o siguiente paso concreto.',
+        'Puedo explicar qué cambió para otros gracias a mi trabajo.'
+      ],
+      actions: [
+        { title: 'Identifica al receptor', body: 'En cada entrega escribe en una línea quién la usará y qué decisión necesita tomar. Antes de enviar pregúntate: ¿esto le permite decidir, o solo le da datos?' },
+        { title: 'De información a recomendación', body: 'En al menos tres entregas agrega tu postura: «recomiendo X porque Y». No entregues opciones sueltas sin tu criterio.' },
+        { title: 'Mide impacto, no horas', body: 'Al cerrar la semana anota qué cambió gracias a tu trabajo: una decisión, un ahorro, un riesgo evitado; no cuántas tareas hiciste.' },
+        { title: 'Anticipa la próxima necesidad', body: 'Entrega algo que nadie pidió pero que el negocio va a necesitar. Empieza a construir tu sello.' }
+      ]
+    },
+    {
+      letter: 'E', name: 'Escuchar para entender', etiqueta: 'ESCUCHAR',
+      plan: 'Practica el silencio de tres segundos y verifica lo que entendiste antes de opinar.',
+      questions: [
+        'Espero antes de responder, incluso cuando creo haber comprendido lo que la otra persona quiere decir.',
+        'Intento identificar la intención y las preocupaciones detrás de las palabras.',
+        'Hago preguntas antes de proponer una solución.',
+        'Después de una conversación importante, puedo resumir con claridad lo que la otra persona necesitaba realmente.'
+      ],
+      actions: [
+        { title: 'El silencio de tres segundos', body: 'Antes de responder en reuniones, cuenta hasta tres. Deja que el otro termine de verdad.' },
+        { title: 'Parafrasea antes de opinar', body: 'En cada conversación importante resume lo que entendiste: «si te entendí, lo clave es…» antes de dar tu solución.' },
+        { title: 'Busca lo no dicho', body: 'En tres reuniones identifica qué quería decir el otro y no dijo, y pregúntalo.' },
+        { title: 'Sal aprendiendo', body: 'Termina cada reunión anotando una cosa que no sabías al entrar.' }
+      ]
+    },
+    {
+      letter: 'N', name: 'Nivel de involucramiento', etiqueta: 'INVOLUCRAMIENTO',
+      plan: 'Hazte cargo de algo que mejore el resultado aunque no sea tu función —proponiendo, no invadiendo—.',
+      questions: [
+        'Cuando detecto un problema que afecta el resultado, lo comunico aunque no corresponda directamente a mi función.',
+        'Propongo o doy un primer paso cuando identifico algo que puede mejorar el trabajo.',
+        'Me siento responsable de la calidad del resultado completo, no únicamente de la parte que me asignaron.',
+        'Durante las últimas cuatro semanas hice algo útil para el resultado sin esperar que alguien me lo pidiera.'
+      ],
+      actions: [
+        { title: 'Conecta con el objetivo', body: 'Para cada tarea escribe cómo se conecta con el resultado final del equipo, no solo con tu entregable.' },
+        { title: 'Hazte cargo de un huérfano', body: 'Toma un problema «que no es de nadie» que afecta el resultado. Propón una solución, sin invadir.' },
+        { title: 'Habla cuando veas algo', body: 'En tres ocasiones di lo que detectaste, aunque te expongas o no te lo hayan pedido.' },
+        { title: 'Dueño del resultado', body: 'Elige un proyecto y siéntete responsable del resultado completo, no solo de tu parte.' }
+      ]
+    },
+    {
+      letter: 'I', name: 'Intención en el detalle', etiqueta: 'DETALLE',
+      plan: 'Antes de cerrar algo, anticipa las dudas que generará y cuídalo aunque nadie importante lo revise.',
+      questions: [
+        'Antes de entregar algo importante, reviso cómo será recibido y utilizado por la otra persona.',
+        'Anticipo las dudas, objeciones o preguntas que puede generar mi trabajo.',
+        'Reviso cifras, nombres, fechas, fuentes y versiones antes de una entrega importante.',
+        'Mis entregables importantes pueden comprenderse y utilizarse sin depender de explicaciones adicionales.'
+      ],
+      actions: [
+        { title: 'Que no necesite explicación', body: 'Antes de cerrar, revisa que tu trabajo se entienda y se use sin que tú tengas que explicarlo.' },
+        { title: 'Anticipa las dudas', body: 'Antes de enviar, lista las preguntas que generará tu entrega y respóndelas de antemano.' },
+        { title: 'La cara oculta de la cerca', body: 'Cuida lo que nadie importante revisará con el mismo estándar que lo visible.' },
+        { title: 'Cuida cómo se recibe', body: 'Trabaja la forma en que llega tu trabajo: formato, claridad, orden; no solo que esté correcto.' }
+      ]
+    },
+    {
+      letter: 'O', name: 'Obsesión por crecer', etiqueta: 'CRECER',
+      plan: 'Elige esta semana la tarea incómoda donde está el aprendizaje y pide feedback sobre lo que haces mal.',
+      questions: [
+        'Actualmente estoy desarrollando de manera activa una habilidad profesional concreta.',
+        'Dedico tiempo deliberado a practicar algo que todavía no domino.',
+        'Busco retroalimentación honesta sobre mis puntos ciegos, no solo confirmación de lo que hago bien.',
+        'Puedo identificar con precisión una capacidad en la que estoy quedando atrás respecto de las necesidades de mi entorno.'
+      ],
+      actions: [
+        { title: 'Una tarea incómoda', body: 'Elige algo que todavía no dominas y dedícale tiempo deliberado esta semana.' },
+        { title: 'Feedback de lo malo', body: 'Pide feedback honesto sobre lo que haces mal, no confirmación de lo que haces bien.' },
+        { title: 'Elige la opción difícil', body: 'Cuando dudes entre lo cómodo y lo que te hace crecer, elige lo segundo.' },
+        { title: 'Nombra tu avance', body: 'Al cerrar el mes escribe algo concreto que aprendiste o mejoraste.' }
+      ]
+    },
+    {
+      letter: 'S', name: 'Sostener la consistencia', etiqueta: 'CONSISTENCIA',
+      plan: 'Define tu mínimo no negociable y sostenlo en tu peor día. Eres tan confiable como tu peor día.',
+      questions: [
+        'Mi estándar de trabajo no depende completamente de mi motivación o estado de ánimo.',
+        'Durante mis semanas más difíciles, sostengo al menos los compromisos mínimos que definí.',
+        'Las personas que trabajan conmigo saben qué pueden esperar de mí.',
+        'Si alguien revisara mis últimas cuatro semanas, encontraría un patrón confiable, no solamente algunos días extraordinarios.'
+      ],
+      actions: [
+        { title: 'Define tu mínimo', body: 'Escribe un mínimo no negociable semanal, visible y verificable.' },
+        { title: 'Sostenlo en el día malo', body: 'Cúmplelo aunque estés cansado o desmotivado: el estándar no depende del ánimo.' },
+        { title: 'Hazte predecible', body: 'Trabaja para que la gente sepa qué versión tuya va a encontrar.' },
+        { title: 'Tu estándar, no su mirada', body: 'Mantén el nivel aunque nadie te observe; si fallas, repórtalo tú.' }
+      ]
+    }
+  ];
+
+  const thresholds = [
+    { min: 0,   num: 0, name: '—',        desc: 'Responde las 24 afirmaciones para ver tu resultado.', phrase: '' },
+    { min: 24,  num: 1, name: 'Operador', desc: 'Tu atención se concentra en ejecutar tareas inmediatas y todavía dependes demasiado de instrucciones.', phrase: 'Hoy soy Operador, y por eso tengo el mayor margen de crecimiento de todos.' },
+    { min: 44,  num: 2, name: 'Cumplidor', desc: 'Respondes y entregas, pero aún existen pocas señales que te diferencien con claridad.', phrase: 'Soy Cumplidor camino a Confiable.' },
+    { min: 63,  num: 3, name: 'Confiable', desc: 'Varias conductas ya aparecen con regularidad, aunque uno o dos ejes todavía limitan tu impacto.', phrase: 'Soy Confiable trabajando para llegar a Impacto.' },
+    { min: 82,  num: 4, name: 'Impacto',  desc: 'Tu trabajo suele producir valor más allá de la tarea y las personas comienzan a buscarte por tu criterio.', phrase: 'Genero Impacto y ahora construyo mi sello.' },
+    { min: 102, num: 5, name: 'Genio',    desc: 'Las seis conductas aparecen con alta frecuencia en tu autoevaluación.', phrase: 'Soy un Genio sosteniendo el estándar que me trajo hasta aquí.' }
+  ];
+
+  const riskTable = {
+    1: { riesgo: 'Quedar atado a la tarea.', prioridad: 'Elegir una letra y practicar una conducta visible durante 30 días.', pregunta: '¿Qué puedo comenzar a hacer sin esperar una instrucción más detallada?' },
+    2: { riesgo: 'La invisibilidad profesional.', prioridad: 'Convertir una fortaleza general en una contribución que otros puedan reconocer y describir.', pregunta: '¿Por qué problema específico quiero que las personas comiencen a buscarme?' },
+    3: { riesgo: 'Instalarte en una reputación positiva que dejó de evolucionar.', prioridad: 'Fortalecer tus letras más bajas y buscar evidencia externa de cambio.', pregunta: '¿Qué conducta me impide pasar de ser confiable a ser una elección evidente?' },
+    4: { riesgo: 'Depender de momentos excepcionales.', prioridad: 'Convertir tus fortalezas en un patrón sostenible y reconocible.', pregunta: '¿Qué debo sostener para que mi impacto deje de depender de la ocasión?' },
+    5: { riesgo: 'Confundir autopercepción con reputación.', prioridad: 'Contrastar el resultado y evitar que el reconocimiento reduzca tu estándar.', pregunta: '¿Qué evidencia tienen los demás para confirmar la puntuación que acabo de asignarme?' }
+  };
+
+  const profiles = {
+    1: { name: 'El Profesional Invisible', riesgo: 'Asumir que la calidad hablará por sí sola.', entrada: 'E', pregunta: '¿Comprendo realmente qué necesita quien recibe mi trabajo?' },
+    2: { name: 'El Cumplidor Perfecto',    riesgo: 'Ser confiable pero intercambiable.', entrada: 'G', pregunta: '¿Qué problema quiero que las personas asocien con mi nombre?' },
+    3: { name: 'El Talento Impredecible',  riesgo: 'Que admiren tu potencial sin confiarte lo más importante.', entrada: 'S', pregunta: '¿Qué estándar mínimo debo sostener incluso durante una semana difícil?' },
+    4: { name: 'El Ocupado Invisible',     riesgo: 'Convertir actividad en invisibilidad.', entrada: 'G', pregunta: '¿Qué decisión, solución o avance habilita lo que estoy haciendo?' },
+    5: { name: 'El Especialista Desconectado', riesgo: 'Crear una buena solución que el entorno no logra usar.', entrada: 'E', pregunta: '¿Estoy resolviendo el problema real o el que resulta más cómodo?' },
+    6: { name: 'El Rescatista Agotado',    riesgo: 'Volverte indispensable para los problemas equivocados.', entrada: 'I o S', pregunta: '¿Estoy mejorando el resultado o evitando que otros asuman su responsabilidad?' },
+    7: { name: 'El Genio Emergente',       riesgo: 'Relajarte ante los primeros resultados.', entrada: 'tu segunda letra más baja', pregunta: '¿Qué comportamiento debo fortalecer antes de que se convierta en mi próximo límite?' }
+  };
+
+  const weeklyPlan = [
+    { title: 'SEMANA 1 · G — Generar valor', body: 'Conducta: antes de una entrega importante, define en una frase qué decisión, solución o avance debe facilitar.\nEvidencia: alguien pudo decidir, comprender o avanzar con menos fricción.\nPróxima repetición: ¿dónde más aplicarás la misma pregunta esta semana?' },
+    { title: 'SEMANA 2 · E — Escuchar para entender', body: 'Conducta: en una conversación donde sueles responder rápido, formula una segunda pregunta y verifica lo que entendiste antes de proponer.\nEvidencia: apareció información que cambió tu respuesta o tu interpretación del problema.\nPróxima repetición: ¿en qué conversación necesitas comprender antes de demostrar que sabes?' },
+    { title: 'SEMANA 3 · N — Nivel de involucramiento', body: 'Conducta: frente a un riesgo sin dueño que afecta el resultado, hazlo visible, propón un primer paso e involucra a quien corresponde.\nEvidencia: el problema pasó de la observación a una conversación, una decisión o una acción.\nPróxima repetición: ¿qué límite respetarás para no convertirte en rescatista?' },
+    { title: 'SEMANA 4 · I — Intención en el detalle', body: 'Conducta: revisa tu entrega más importante desde el lugar de quien la usará con cuatro pasadas: orientación, decisión, fricción, confianza.\nEvidencia: el receptor pudo comprender y actuar sin reconstruir el contexto.\nPróxima repetición: ¿qué fricción eliminarás primero en tu próxima entrega?' },
+    { title: 'SEMANA 5 · O — Obsesión por crecer', body: 'Conducta: practica 30 minutos una capacidad ligada a una brecha de valor, pide retroalimentación específica y aplícala en una situación real.\nEvidencia: hiciste algo que antes evitabas o no podías hacer.\nPróxima repetición: ¿qué corregirás y volverás a practicar antes de subir la dificultad?' },
+    { title: 'SEMANA 6 · S — Sostener la consistencia', body: 'Conducta: elige una responsabilidad que se deteriora con el cansancio; define tu máximo, estándar y mínimo, comunica riesgos a tiempo.\nEvidencia: otros pudieron anticipar cómo responderías aun en condiciones no ideales.\nPróxima repetición: ¿qué mínimo protegerás en tu próximo ciclo?' }
+  ];
+
+  let answers  = loadJSON(STORAGE_KEY, {});
+  let planDone = loadJSON(PLAN_KEY, {});
+
+  /* ── UTILITIES ── */
+  function loadJSON(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  }
+  function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(answers)); }
+  function savePlan()  { localStorage.setItem(PLAN_KEY,    JSON.stringify(planDone)); }
+
+  /* ── RENDER QUESTIONS ── */
+  function renderQuestions() {
+    const root = document.getElementById('questionContainer');
+    root.innerHTML = '';
+    let globalIndex = 0;
+    dimensions.forEach((dim) => {
+      const section = document.createElement('section');
+      section.className = 'dimension';
+      section.id = `dim-${dim.letter}`;
+      section.innerHTML = `
+        <div class="dimension-header" role="button" tabindex="0" aria-label="${dim.letter} · ${dim.name}">
+          <div class="dim-letter">${dim.letter}</div>
+          <div class="dim-info">
+            <h3>${dim.letter} · ${dim.name}</h3>
+            <div class="dim-plan">${dim.plan}</div>
+          </div>
+          <div class="subtotal-badge" id="subtotal-${dim.letter}">0 / 20</div>
+        </div>
+        <div class="question-list"></div>
+      `;
+      const list = section.querySelector('.question-list');
+      dim.questions.forEach((question, qIdx) => {
+        globalIndex++;
+        const key = `${dim.letter}${qIdx + 1}`;
+        const q = document.createElement('article');
+        q.className = `question${answers[key] ? ' answered' : ''}`;
+        q.dataset.key = key;
+        const opts = [1,2,3,4,5].map(v => `
+          <span>
+            <input type="radio" name="${key}" id="${key}-${v}" value="${v}" ${answers[key] === v ? 'checked' : ''}>
+            <label for="${key}-${v}" title="${v} · ${v === 1 ? 'Casi nunca' : v === 2 ? 'Pocas veces' : v === 3 ? 'Algunas veces' : v === 4 ? 'Con frecuencia' : 'Siempre'}">${v}</label>
+          </span>`).join('');
+        q.innerHTML = `
+          <p><span class="q-num">${globalIndex}</span>${question}</p>
+          <div class="scale" role="radiogroup" aria-label="Respuesta ${globalIndex}">${opts}</div>
+          <div class="scale-help"><span>1 · Casi nunca</span><span>5 · Siempre o casi siempre</span></div>
+        `;
+        q.querySelectorAll('input').forEach(input => {
+          input.addEventListener('change', e => {
+            answers[key] = Number(e.target.value);
+            saveState();
+            q.classList.add('answered');
+            updateAll();
+          });
+        });
+        list.appendChild(q);
+      });
+      root.appendChild(section);
+    });
+  }
+
+  /* ── RENDER PLAN ── */
+  function renderPlan() {
+    const root = document.getElementById('planGrid');
+    root.innerHTML = '';
+    weeklyPlan.forEach((week, i) => {
+      const key  = `week-${i+1}`;
+      const card = document.createElement('article');
+      card.className = `week-card${planDone[key] ? ' done' : ''}`;
+      card.innerHTML = `
+        <div class="week-card-head">
+          <h3>${week.title}</h3>
+          <input type="checkbox" class="week-check" aria-label="Marcar como completada" ${planDone[key] ? 'checked' : ''}>
+        </div>
+        ${week.body.split('\n').map(line => {
+          const [label, ...rest] = line.split(':');
+          return rest.length ? `<p><strong>${label}:</strong>${rest.join(':')}</p>` : `<p>${line}</p>`;
+        }).join('')}
+      `;
+      const cb = card.querySelector('input');
+      cb.addEventListener('change', () => {
+        planDone[key] = cb.checked;
+        card.classList.toggle('done', cb.checked);
+        savePlan();
+        toast(cb.checked ? '✓ Semana marcada como lista.' : 'Semana desmarcada.');
+      });
+      root.appendChild(card);
+    });
+  }
+
+  /* ── CALCULATE ── */
+  function calculate() {
+    const answered = Object.values(answers).filter(v => Number.isFinite(v)).length;
+    const dimScores = dimensions.map(dim => {
+      const score = dim.questions.reduce((s, _, i) => s + (Number(answers[`${dim.letter}${i+1}`]) || 0), 0);
+      return { ...dim, score, avg: score / 4 };
+    });
+    const total    = dimScores.reduce((s, d) => s + d.score, 0);
+    const complete = answered >= 24;
+    const level    = complete ? getLevel(total) : thresholds[0];
+    const focusIndex    = complete ? indexOfMin(dimScores.map(d => d.score)) : -1;
+    const strengthIndex = complete ? indexOfMax(dimScores.map(d => d.score)) : -1;
+    const profileIndex  = complete ? getProfileIndex(dimScores, total) : 0;
+    return { answered, dimScores, total, complete, level, focusIndex, strengthIndex, profileIndex };
+  }
+
+  function getLevel(total) {
+    let level = thresholds[0];
+    thresholds.forEach(t => { if (total >= t.min) level = t; });
+    return level;
+  }
+  function indexOfMin(values) { let m = Infinity, i = 0; values.forEach((v,j) => { if (v < m) { m = v; i = j; } }); return i; }
+  function indexOfMax(values) { let m = -Infinity, i = 0; values.forEach((v,j) => { if (v > m) { m = v; i = j; } }); return i; }
+  function getProfileIndex(dimScores, total) {
+    const avgs   = dimScores.map(d => d.avg);
+    const avgAll = avgs.reduce((a,b) => a + b, 0) / avgs.length;
+    const high   = avgs.map(v => v - avgAll >= 0.4 ? 1 : 0);
+    const low    = avgs.map(v => avgAll - v >= 0.4 ? 1 : 0);
+    const spread = Math.max(...avgs) - Math.min(...avgs);
+    if (high[2] && (low[5] || low[4])) return 6;
+    if (high[4] && high[3] && (low[1] || low[2])) return 5;
+    if (high[5] && low[0]) return 4;
+    if (high[0] && (low[1] || low[3])) return 1;
+    if (low[5] && spread >= 0.6) return 3;
+    if (spread < 0.6 && total >= 82) return 7;
+    return 2;
+  }
+
+  /* ── UPDATE ALL ── */
+  function updateAll() {
+    const state = calculate();
+    updateProgress(state);
+    updateSubtotals(state);
+    updateResult(state);
+    updateRadar(state);
+    updateBars(state);
+    updatePlanIntro(state);
+    updateEntryActions(state);
+    updatePrintReport(state);
+    updateStickyProgress(state);
+    updateCompleteBanner(state);
+  }
+
+  function updateProgress({ answered }) {
+    const pct = Math.round((answered / 24) * 100);
+    document.getElementById('answeredText').textContent = `${answered} de 24 respondidas`;
+    document.getElementById('progressPct').textContent  = `${pct}%`;
+    document.getElementById('progressBar').style.width  = `${pct}%`;
+    document.getElementById('kpiAnswered').textContent  = answered;
+  }
+
+  function updateStickyProgress({ answered }) {
+    const pct = Math.round((answered / 24) * 100);
+    document.getElementById('spFill').style.width  = `${pct}%`;
+    const lbl = document.getElementById('spLabel');
+    lbl.textContent = answered >= 24 ? '✓ Completo' : `${answered} / 24`;
+    lbl.className   = answered >= 24 ? 'sp-label complete' : 'sp-label';
+  }
+
+  function updateCompleteBanner({ complete }) {
+    const banner = document.getElementById('completeBanner');
+    banner.classList.toggle('show', complete);
+  }
+
+  function updateSubtotals({ dimScores }) {
+    dimScores.forEach(dim => {
+      const el = document.getElementById(`subtotal-${dim.letter}`);
+      if (!el) return;
+      el.textContent = `${dim.score} / 20`;
+      el.className   = 'subtotal-badge';
+      if (dim.avg >= 4)    el.classList.add('high');
+      else if (dim.avg < 3) el.classList.add('low');
+    });
+  }
+
+  function updateResult({ complete, total, level, dimScores, focusIndex, strengthIndex, profileIndex }) {
+    document.getElementById('kpiScore').textContent     = total;
+    document.getElementById('kpiLevel').textContent     = complete ? level.num : '—';
+    document.getElementById('kpiLevelName').textContent = complete ? level.name : 'Completa';
+    document.getElementById('levelQuote').textContent   = complete ? `"${level.phrase}"` : 'Responde las 24 afirmaciones para ver tu nivel y tu frase.';
+
+    const strength = complete ? dimScores[strengthIndex] : null;
+    const focus    = complete ? dimScores[focusIndex]    : null;
+    document.getElementById('strengthText').textContent = strength ? `${strength.letter} · ${strength.name}` : '—';
+    document.getElementById('focusText').textContent    = focus    ? `${focus.letter} · ${focus.name}`       : '—';
+
+    const risk = complete ? riskTable[level.num] : null;
+    document.getElementById('riskText').textContent     = risk ? risk.riesgo    : 'Completa el diagnóstico para ver tu riesgo.';
+    document.getElementById('priorityText').textContent = risk ? risk.prioridad : 'Completa el diagnóstico para ver tu prioridad.';
+    document.getElementById('questionText').textContent = risk ? risk.pregunta  : 'Completa el diagnóstico para ver tu pregunta.';
+
+    const profile = complete ? profiles[profileIndex] : null;
+    document.getElementById('profileName').textContent  = profile ? profile.name : 'Completa las 24 respuestas';
+    document.getElementById('profileBody').innerHTML    = profile
+      ? `<strong>Riesgo:</strong> ${profile.riesgo}<br><br><strong>Punto de entrada:</strong> ${profile.entrada}<br><br><em>${profile.pregunta}</em>`
+      : 'El sistema sugerirá un perfil a partir de tus seis promedios. No es una etiqueta fija.';
+  }
+
+  /* ── RADAR ── */
+  function updateRadar({ dimScores }) {
+    const svg    = document.getElementById('radarSvg');
+    const center = 160, radius = 110, labelR = 140;
+    svg.innerHTML = '';
+
+    // rings
+    [1,2,3,4,5].forEach(ring => {
+      const r = radius * (ring / 5);
+      svg.appendChild(makePoly(getPolyPts(6, center, r), 'radar-grid'));
+      if (ring < 5) {
+        const ringLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        ringLabel.setAttribute('x', center); ringLabel.setAttribute('y', center - r - 3);
+        ringLabel.setAttribute('class', 'radar-ring-label');
+        ringLabel.textContent = ring;
+        svg.appendChild(ringLabel);
+      }
+    });
+
+    // axes + labels
+    dimScores.forEach((dim, i) => {
+      const angle   = angleFor(i, dimScores.length);
+      const axisEnd = polarPt(center, radius, angle);
+      const axis    = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      axis.setAttribute('x1', center); axis.setAttribute('y1', center);
+      axis.setAttribute('x2', axisEnd.x); axis.setAttribute('y2', axisEnd.y);
+      axis.setAttribute('class', 'radar-axis');
+      svg.appendChild(axis);
+
+      const lp  = polarPt(center, labelR, angle);
+      const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      lbl.setAttribute('x', lp.x); lbl.setAttribute('y', lp.y);
+      lbl.setAttribute('class', 'radar-label');
+      lbl.textContent = `${dim.letter} ${dim.avg ? dim.avg.toFixed(1) : '0.0'}`;
+      svg.appendChild(lbl);
+    });
+
+    // shape
+    const vpts = dimScores.map((dim, i) => polarPt(center, radius * Math.max(0, Math.min(1, dim.avg / 5)), angleFor(i, dimScores.length)));
+    const shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    shape.setAttribute('points', vpts.map(p => `${p.x},${p.y}`).join(' '));
+    shape.setAttribute('class', 'radar-shape');
+    svg.appendChild(shape);
+
+    vpts.forEach(p => {
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); dot.setAttribute('r', 5);
+      dot.setAttribute('class', 'radar-dot');
+      svg.appendChild(dot);
+    });
+  }
+
+  function makePoly(pts, cls) {
+    const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    poly.setAttribute('points', pts.map(p => `${p.x},${p.y}`).join(' '));
+    poly.setAttribute('class', cls);
+    return poly;
+  }
+  function getPolyPts(n, c, r) { return Array.from({length:n}, (_, i) => polarPt(c, r, angleFor(i, n))); }
+  function angleFor(i, n)      { return (-90 + (360 / n) * i) * Math.PI / 180; }
+  function polarPt(c, r, a)    { return { x: +(c + r * Math.cos(a)).toFixed(2), y: +(c + r * Math.sin(a)).toFixed(2) }; }
+
+  /* ── BARS ── */
+  function updateBars({ dimScores }) {
+    const root = document.getElementById('bars');
+    root.innerHTML = '';
+    dimScores.forEach(dim => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `
+        <span class="bar-letter">${dim.letter}</span>
+        <div class="bar-rail"><div class="bar-fill" style="width:${Math.round((dim.score / 20) * 100)}%"></div></div>
+        <span class="bar-score">${dim.score}/20</span>
+      `;
+      root.appendChild(row);
+    });
+  }
+
+  /* ── PLAN INTRO ── */
+  function updatePlanIntro({ complete, dimScores, focusIndex }) {
+    const el = document.getElementById('planIntro');
+    if (!complete) { el.textContent = 'Completa el diagnóstico (24 respuestas) para personalizar tu plan.'; return; }
+    const focus = dimScores[focusIndex];
+    el.textContent = `Tu letra más baja fue ${focus.letter} · ${focus.name}. En la semana correspondiente, pon tu mayor atención.`;
+  }
+
+  /* ── ENTRY ACTIONS ── */
+  function updateEntryActions({ complete, dimScores, focusIndex }) {
+    const intro = document.getElementById('entryIntro');
+    const root  = document.getElementById('entryActions');
+    root.innerHTML = '';
+    if (!complete) { intro.textContent = 'Completa el diagnóstico para ver acciones concretas.'; return; }
+    const focus = dimScores[focusIndex];
+    intro.textContent = `Tu letra de entrada es ${focus.letter} · ${focus.name}. Practica estas cuatro conductas, una por semana:`;
+    focus.actions.forEach((action, i) => {
+      const item = document.createElement('div');
+      item.className = 'action-item';
+      item.innerHTML = `
+        <div class="action-num">${i+1}</div>
+        <div class="action-text">
+          <strong>${action.title}</strong>
+          <span>${action.body}</span>
+        </div>
+      `;
+      root.appendChild(item);
+    });
+  }
+
+  /* ── PRINT REPORT ── */
+  function buildReportText() {
+    const state = calculate();
+    const { complete, total, answered, level, dimScores, focusIndex, strengthIndex, profileIndex } = state;
+    const lines = ['SOMOS G.E.N.I.O.S. · Reporte de diagnóstico', ''];
+    lines.push(`Respondidas: ${answered}/24`, `Puntaje: ${total}/120`);
+    if (!complete) { lines.push('Resultado: diagnóstico incompleto.'); return lines.join('\n'); }
+    const focus    = dimScores[focusIndex];
+    const strength = dimScores[strengthIndex];
+    const risk     = riskTable[level.num];
+    const profile  = profiles[profileIndex];
+    lines.push(`Nivel: ${level.num} · ${level.name}`, `Frase: ${level.phrase}`, '', 'Subtotales:');
+    dimScores.forEach(d => lines.push(`- ${d.letter} · ${d.name}: ${d.score}/20 · promedio ${d.avg.toFixed(2)}`));
+    lines.push('', `Fortaleza: ${strength.letter} · ${strength.name}`, `Foco de entrada: ${focus.letter} · ${focus.name}`,
+      '', `Riesgo: ${risk.riesgo}`, `Prioridad: ${risk.prioridad}`, `Pregunta de avance: ${risk.pregunta}`,
+      '', `Perfil sugerido: ${profile.name}`, `Riesgo del perfil: ${profile.riesgo}`,
+      `Punto de entrada del perfil: ${profile.entrada}`, `Pregunta clave del perfil: ${profile.pregunta}`,
+      '', `Letra de entrada: ${focus.letter} · ${focus.name}`);
+    focus.actions.forEach((a, i) => lines.push(`${i+1}. ${a.title}: ${a.body}`));
+    lines.push('', 'somosgenios.com');
+    return lines.join('\n');
+  }
+
+  function updatePrintReport(state) {
+    const report = document.getElementById('printReport');
+    const text   = buildReportText();
+    report.innerHTML = `<h1>SOMOS G.E.N.I.O.S.</h1><pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.55;">${escapeHTML(text)}</pre>`;
+  }
+
+  function escapeHTML(s) {
+    return s.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+
+  /* ── TOAST ── */
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => el.classList.remove('show'), 2600);
+  }
+
+  /* ── ACTIONS ── */
+  function resetAll() {
+    if (!confirm('¿Seguro que quieres reiniciar todas tus respuestas?')) return;
+    answers = {};
+    saveState();
+    document.querySelectorAll('#questionContainer input[type="radio"]').forEach(i => i.checked = false);
+    document.querySelectorAll('.question').forEach(q => q.classList.remove('answered'));
+    updateAll();
+    toast('Diagnóstico reiniciado.');
+  }
+
+  async function copyReport() {
+    const text = buildReportText();
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('📋 Reporte copiado al portapapeles.');
+    } catch {
+      const area = document.createElement('textarea');
+      area.value = text; document.body.appendChild(area);
+      area.select(); document.execCommand('copy'); area.remove();
+      toast('📋 Reporte copiado.');
+    }
+  }
+
+  function downloadReport() {
+    const state = calculate();
+    if (!state.complete) {
+      toast('⚠ Completa las 24 respuestas para descargar el PDF.');
+      return;
+    }
+    generatePDF(state);
+    toast('⬇ Generando PDF…');
+  }
+
+  /* ══════════════════════════════════════════════
+     PDF GENERATOR — jsPDF canvas approach
+     Paleta: navy #1c335c · oro #b88a3b · crema #f4f1eb · blanco
+  ══════════════════════════════════════════════ */
+  function generatePDF(state) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const W = 210, H = 297;
+    const NAVY  = [28,  51,  92];
+    const NAVY2 = [24,  39,  66];
+    const GOLD  = [184, 138, 59];
+    const CREAM = [244, 241, 235];
+    const INK   = [23,  32,  51];
+    const MUTED = [104, 112, 134];
+    const WHITE = [255, 255, 255];
+    const GREEN = [34,  113, 92];
+    const RED   = [168, 69,  56];
+
+    const { dimScores, total, level, focusIndex, strengthIndex, profileIndex, answered } = state;
+    const focus    = dimScores[focusIndex];
+    const strength = dimScores[strengthIndex];
+    const risk     = riskTable[level.num];
+    const profile  = profiles[profileIndex];
+
+    /* ── helpers ── */
+    function rgb(c) { doc.setTextColor(c[0], c[1], c[2]); }
+    function fill(c) { doc.setFillColor(c[0], c[1], c[2]); }
+    function stroke(c, lw=0.3) { doc.setDrawColor(c[0], c[1], c[2]); doc.setLineWidth(lw); }
+    function rect(x, y, w, h, style='F') { doc.rect(x, y, w, h, style); }
+    function roundRect(x, y, w, h, r, style='F') { doc.roundedRect(x, y, w, h, r, r, style); }
+
+    function text(t, x, y, opts={}) {
+      const safe = String(t)
+        .replace(/\u2019/g,"'").replace(/\u2018/g,"'")
+        .replace(/\u201C/g,'"').replace(/\u201D/g,'"')
+        .replace(/\u2014/g,'--').replace(/\u2013/g,'-')
+        .replace(/\u00e9/g,'e').replace(/\u00f3/g,'o')
+        .replace(/\u00fa/g,'u').replace(/\u00ed/g,'i')
+        .replace(/\u00e1/g,'a').replace(/[^\x00-\x7F]/g, c => {
+          const map = {'\u00e0':'a','\u00e2':'a','\u00e4':'a','\u00e8':'e','\u00ea':'e','\u00eb':'e',
+            '\u00ee':'i','\u00ef':'i','\u00f4':'o','\u00f6':'o','\u00f9':'u','\u00fb':'u','\u00fc':'u',
+            '\u00e7':'c','\u00f1':'n','\u00da':'U','\u00c9':'E','\u00d3':'O','\u00cd':'I','\u00c1':'A',
+            '\u00bf':'?','\u00a1':'!','\u00fc':'u','\u00e3':'a','\u00f5':'o'};
+          return map[c] || '?';
+        });
+      doc.text(safe, x, y, opts);
+    }
+
+    /* wrap text to fit width, returns array of lines */
+    function wrap(t, maxW, fontSize) {
+      doc.setFontSize(fontSize);
+      return doc.splitTextToSize(String(t)
+        .replace(/\u2019/g,"'").replace(/\u2018/g,"'")
+        .replace(/\u201C/g,'"').replace(/\u201D/g,'"')
+        .replace(/\u2014/g,'--').replace(/\u2013/g,'-')
+        .replace(/[\u00e0\u00e2\u00e4]/g,'a').replace(/[\u00e8\u00ea\u00eb]/g,'e')
+        .replace(/[\u00ee\u00ef]/g,'i').replace(/[\u00f4\u00f6]/g,'o')
+        .replace(/[\u00f9\u00fb\u00fc]/g,'u').replace(/\u00e7/g,'c')
+        .replace(/\u00f1/g,'n').replace(/\u00e9/g,'e').replace(/\u00f3/g,'o')
+        .replace(/\u00fa/g,'u').replace(/\u00ed/g,'i').replace(/\u00e1/g,'a')
+        .replace(/[^\x00-\x7F]/g,'?'), maxW);
+    }
+
+    /* draw radar polygon on canvas */
+    function drawRadarOnPage(cx, cy, radius, scores) {
+      const N = 6;
+      const ang = i => (-90 + (360/N)*i) * Math.PI / 180;
+      const pt  = (r, i) => ({ x: cx + r*Math.cos(ang(i)), y: cy + r*Math.sin(ang(i)) });
+
+      // grid rings
+      stroke([220,215,205], 0.25);
+      [1,2,3,4,5].forEach(ring => {
+        const r = radius*(ring/5);
+        const pts = Array.from({length:N}, (_,i) => pt(r,i));
+        doc.setDrawColor(200,195,185);
+        doc.setLineWidth(ring===5?0.5:0.2);
+        doc.lines(pts.slice(1).map((p,i) => [p.x-pts[i].x, p.y-pts[i].y]),
+          pts[0].x, pts[0].y, [1,1], 'S', true);
+      });
+
+      // axes + labels
+      const letters = ['G','E','N','I','O','S'];
+      scores.forEach((score,i) => {
+        const outer = pt(radius,i);
+        stroke(NAVY, 0.25);
+        doc.setDrawColor(150,160,185);
+        doc.setLineWidth(0.25);
+        doc.line(cx, cy, outer.x, outer.y);
+
+        // letter label
+        const lp = pt(radius+8, i);
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(8);
+        rgb(INK);
+        const avg = score/4;
+        text(`${letters[i]} ${avg.toFixed(1)}`, lp.x, lp.y, {align:'center', baseline:'middle'});
+      });
+
+      // shape fill
+      const vals = scores.map((s,i) => pt(radius * Math.max(0, Math.min(1, (s/4)/5)), i));
+      doc.setFillColor(184,138,59, 0.28);
+      doc.setFillColor(184,138,59);
+      // draw filled shape
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({opacity:0.28}));
+      fill(GOLD);
+      doc.lines(vals.slice(1).map((p,i) => [p.x-vals[i].x, p.y-vals[i].y]),
+        vals[0].x, vals[0].y, [1,1], 'F', true);
+      doc.restoreGraphicsState();
+
+      // shape stroke
+      stroke(GOLD, 1.2);
+      doc.lines(vals.slice(1).map((p,i) => [p.x-vals[i].x, p.y-vals[i].y]),
+        vals[0].x, vals[0].y, [1,1], 'S', true);
+
+      // dots
+      fill(NAVY);
+      vals.forEach(p => { doc.circle(p.x, p.y, 1.6, 'F'); });
+    }
+
+    /* ════════════════════
+       PAGE 1 — PORTADA
+    ════════════════════ */
+
+    // Full navy background
+    fill(NAVY);
+    rect(0, 0, W, H);
+
+    // Decorative gold accent strip left
+    fill(GOLD);
+    rect(0, 0, 5, H);
+
+    // Subtle dot grid texture overlay (decorative lines)
+    stroke([255,255,255], 0.1);
+    doc.setDrawColor(255,255,255);
+    doc.setLineWidth(0.08);
+    for (let x = 20; x < W; x += 18) {
+      for (let y = 20; y < H; y += 18) {
+        doc.circle(x, y, 0.3, 'F');
+      }
+    }
+
+    // Large decorative circle — bottom right
+    doc.setDrawColor(184,138,59);
+    doc.setLineWidth(0.5);
+    doc.setFillColor(184,138,59);
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({opacity:0.08}));
+    doc.circle(195, 270, 90, 'F');
+    doc.restoreGraphicsState();
+
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({opacity:0.12}));
+    doc.circle(195, 270, 65, 'F');
+    doc.restoreGraphicsState();
+
+    // — Header area —
+    // Kicker line
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(184,138,59);
+    doc.setCharSpace(2);
+    text('DIAGNOSTICO DE REPUTACION PROFESIONAL', 18, 28);
+    doc.setCharSpace(0);
+
+    // Thin gold rule
+    fill(GOLD);
+    rect(18, 31, 90, 0.5);
+
+    // Main title
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(46);
+    doc.setTextColor(255,255,255);
+    text('SOMOS', 18, 52);
+
+    doc.setFontSize(46);
+    doc.setTextColor(240,221,186);
+    text('G.E.N.I.O.S.', 18, 65);
+
+    // Subtitle
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(10);
+    doc.setTextColor(255,255,255);
+    doc.setGState && doc.saveGraphicsState();
+    rgb([200,210,230]);
+    const subtitleLines = wrap('Sistema de Conductas para la Reputacion Profesional', 100, 10);
+    doc.text(subtitleLines, 18, 76);
+    doc.restoreGraphicsState && doc.restoreGraphicsState();
+
+    // — Score hero box —
+    // Background card
+    doc.setFillColor(255,255,255);
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({opacity:0.07}));
+    roundRect(18, 88, W-36, 44, 4);
+    doc.restoreGraphicsState();
+
+    stroke(GOLD, 0.5);
+    doc.setDrawColor(184,138,59);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(18, 88, W-36, 44, 4, 4, 'S');
+
+    // Score columns
+    const cols = [
+      { label: 'PUNTAJE TOTAL', val: `${total}`, sub: 'de 120 puntos' },
+      { label: 'NIVEL', val: `${level.num}`, sub: level.name },
+      { label: 'RESPONDIDAS', val: `${answered}`, sub: 'de 24 conductas' }
+    ];
+    cols.forEach((col, i) => {
+      const cx2 = 18 + i*(W-36)/3 + (W-36)/6;
+      if (i > 0) {
+        doc.setDrawColor(184,138,59);
+        doc.setLineWidth(0.3);
+        doc.setGState && doc.saveGraphicsState();
+        doc.saveGraphicsState();
+        doc.setGState(new doc.GState({opacity:0.3}));
+        doc.line(18 + i*(W-36)/3, 93, 18 + i*(W-36)/3, 127);
+        doc.restoreGraphicsState();
+      }
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(6.5);
+      doc.setCharSpace(1.5);
+      doc.setTextColor(184,138,59);
+      text(col.label, cx2, 97, {align:'center'});
+      doc.setCharSpace(0);
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(28);
+      doc.setTextColor(255,255,255);
+      text(col.val, cx2, 114, {align:'center'});
+
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8);
+      doc.setTextColor(200,210,230);
+      text(col.sub, cx2, 121, {align:'center'});
+    });
+
+    // — Level phrase quote —
+    if (level.phrase) {
+      fill(GOLD);
+      rect(18, 138, 3, 20);
+      doc.setFont('helvetica','italic');
+      doc.setFontSize(11);
+      rgb([240,221,186]);
+      const phraseLines = wrap(`"${level.phrase}"`, 150, 11);
+      doc.text(phraseLines, 26, 144);
+    }
+
+    // — Radar —
+    const radarCX = 155, radarCY = 178, radarR = 38;
+    const scores = dimScores.map(d => d.score);
+    drawRadarOnPage(radarCX, radarCY, radarR, scores);
+
+    // Radar title
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setCharSpace(1.5);
+    doc.setTextColor(184,138,59);
+    text('HEXAGONO G.E.N.I.O.S.', radarCX, 134, {align:'center'});
+    doc.setCharSpace(0);
+
+    // — Fortaleza / Foco sidebar boxes —
+    const boxY = 143;
+    [
+      { label:'FORTALEZA', val:`${strength.letter} - ${strength.name}`, color:GREEN },
+      { label:'LETRA DE ENTRADA', val:`${focus.letter} - ${focus.name}`, color:GOLD }
+    ].forEach((item, i) => {
+      const bx = 18, by = boxY + i*28;
+      doc.setFillColor(255,255,255);
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({opacity:0.06}));
+      roundRect(bx, by, 110, 22, 3);
+      doc.restoreGraphicsState();
+      doc.setDrawColor(item.color[0], item.color[1], item.color[2]);
+      doc.setLineWidth(0.4);
+      doc.roundedRect(bx, by, 110, 22, 3, 3, 'S');
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(6);
+      doc.setCharSpace(1.5);
+      doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+      text(item.label, bx+6, by+7);
+      doc.setCharSpace(0);
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(10);
+      doc.setTextColor(255,255,255);
+      text(item.val, bx+6, by+16);
+    });
+
+    // — Profile banner —
+    const profY = 207;
+    fill(NAVY2);
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({opacity:0.6}));
+    roundRect(18, profY, W-36, 30, 3);
+    doc.restoreGraphicsState();
+    fill(GOLD);
+    roundRect(18, profY, 3.5, 30, 1.5);
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(6.5);
+    doc.setCharSpace(1.2);
+    doc.setTextColor(184,138,59);
+    text('PERFIL SUGERIDO', 27, profY+8);
+    doc.setCharSpace(0);
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(13);
+    doc.setTextColor(255,255,255);
+    text(profile.name.toUpperCase(), 27, profY+18);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(200,210,230);
+    const profRiesgoLines = wrap(`Riesgo: ${profile.riesgo}`, 150, 8);
+    doc.text(profRiesgoLines, 27, profY+25);
+
+    // — Bar chart subtotals —
+    const barStartY = 242;
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setCharSpace(1.5);
+    doc.setTextColor(184,138,59);
+    text('SUBTOTALES POR DIMENSION', 18, barStartY-5);
+    doc.setCharSpace(0);
+
+    dimScores.forEach((dim, i) => {
+      const bx = 18, by = barStartY + i*5.5;
+      const pct = dim.score / 20;
+      const barW = 120;
+
+      // label
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7);
+      doc.setTextColor(200,210,230);
+      text(dim.letter, bx, by+3.5);
+
+      // rail
+      doc.setFillColor(255,255,255);
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({opacity:0.1}));
+      roundRect(bx+8, by+0.5, barW, 3.5, 1);
+      doc.restoreGraphicsState();
+
+      // fill
+      fill(GOLD);
+      doc.saveGraphicsState();
+      doc.setGState(new doc.GState({opacity: 0.5+pct*0.5}));
+      roundRect(bx+8, by+0.5, barW*pct, 3.5, 1);
+      doc.restoreGraphicsState();
+
+      // score
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7);
+      doc.setTextColor(240,221,186);
+      text(`${dim.score}/20`, bx+barW+12, by+3.5, {align:'right'});
+    });
+
+    // — Footer page 1 —
+    fill(GOLD);
+    rect(0, H-10, W, 10);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setTextColor(28,51,92);
+    text('somosgenios.com', W/2, H-4, {align:'center'});
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(200,210,230);
+    const today = new Date().toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
+    text(today, W-18, H-4, {align:'right'});
+    text('1 / 2', 18, H-4);
+
+    /* ════════════════════
+       PAGE 2 — DETALLE
+    ════════════════════ */
+    doc.addPage();
+
+    // Cream background
+    fill(CREAM);
+    rect(0, 0, W, H);
+
+    // Navy top bar
+    fill(NAVY);
+    rect(0, 0, W, 22);
+    fill(GOLD);
+    rect(0, 22, W, 1.5);
+
+    // Page header
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.setTextColor(255,255,255);
+    text('SOMOS G.E.N.I.O.S.  |  Reporte Completo', 18, 14);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(184,138,59);
+    text(`${level.num} - ${level.name}  /  ${total} pts`, W-18, 14, {align:'right'});
+
+    let py = 34; // current Y cursor
+
+    /* ── RISK / PRIORITY / QUESTION section ── */
+    const sectionTitle = (t, y) => {
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7);
+      doc.setCharSpace(1.5);
+      doc.setTextColor(184,138,59);
+      text(t, 18, y);
+      doc.setCharSpace(0);
+      stroke(GOLD,0.4);
+      doc.setDrawColor(184,138,59);
+      doc.setLineWidth(0.4);
+      doc.line(18, y+2, W-18, y+2);
+    };
+
+    sectionTitle('SIGUIENTE PASO: RIESGO, PRIORIDAD Y PREGUNTA', py);
+    py += 8;
+
+    const blocks = [
+      { icon:'RIESGO', content: risk.riesgo, accent: RED },
+      { icon:'PRIORIDAD', content: risk.prioridad, accent: NAVY },
+      { icon:'PREGUNTA DE AVANCE', content: risk.pregunta, accent: GOLD }
+    ];
+
+    blocks.forEach(b => {
+      fill(WHITE);
+      doc.setFillColor(255,255,255);
+      roundRect(18, py, W-36, 14, 2.5);
+      doc.setDrawColor(b.accent[0],b.accent[1],b.accent[2]);
+      doc.setLineWidth(0.35);
+      doc.roundedRect(18, py, W-36, 14, 2.5, 2.5, 'S');
+      fill(b.accent);
+      roundRect(18, py, 3.5, 14, 1.5);
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(6);
+      doc.setCharSpace(1.2);
+      doc.setTextColor(b.accent[0],b.accent[1],b.accent[2]);
+      text(b.icon, 27, py+5);
+      doc.setCharSpace(0);
+
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8.5);
+      rgb(INK);
+      const lines = wrap(b.content, W-50, 8.5);
+      doc.text(lines, 27, py+10);
+      py += 18;
+    });
+
+    py += 4;
+
+    /* ── PERFIL DETALLE ── */
+    sectionTitle('PERFIL G.E.N.I.O.S. SUGERIDO', py);
+    py += 8;
+
+    fill(NAVY);
+    doc.setFillColor(28,51,92);
+    roundRect(18, py, W-36, 24, 3);
+    fill(GOLD);
+    roundRect(18, py, 4, 24, 2);
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(12);
+    doc.setTextColor(255,255,255);
+    text(profile.name.toUpperCase(), 28, py+9);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(200,210,230);
+    const profLines2 = wrap(`Punto de entrada: ${profile.entrada}  |  Riesgo: ${profile.riesgo}`, W-56, 8);
+    doc.text(profLines2, 28, py+15);
+
+    doc.setFont('helvetica','italic');
+    doc.setFontSize(8);
+    doc.setTextColor(240,221,186);
+    const profQ = wrap(profile.pregunta, W-56, 8);
+    doc.text(profQ, 28, py+21);
+    py += 30;
+
+    /* ── DIMENSIONES DETALLE ── */
+    sectionTitle('PUNTAJE POR DIMENSION', py);
+    py += 8;
+
+    const colW = (W-36-8) / 2;
+    dimScores.forEach((dim, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const dx = 18 + col*(colW+8);
+      const dy = py + row*22;
+
+      // card bg
+      fill(WHITE);
+      doc.setFillColor(255,255,255);
+      roundRect(dx, dy, colW, 18, 2.5);
+      doc.setDrawColor(220,215,205);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(dx, dy, colW, 18, 2.5, 2.5, 'S');
+
+      // letter badge
+      fill(NAVY);
+      doc.setFillColor(28,51,92);
+      roundRect(dx+3, dy+3, 12, 12, 2);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9);
+      doc.setTextColor(255,255,255);
+      text(dim.letter, dx+9, dy+11, {align:'center'});
+
+      // name
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7.5);
+      rgb(INK);
+      text(dim.name, dx+19, dy+8);
+
+      // score text
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(11);
+      doc.setTextColor(28,51,92);
+      text(`${dim.score}`, dx+19, dy+15);
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(7);
+      rgb(MUTED);
+      text(`/ 20  (avg ${dim.avg.toFixed(1)})`, dx+27, dy+15);
+
+      // mini bar
+      doc.setFillColor(228,222,210);
+      roundRect(dx+3, dy+15, colW-6, 2, 0.8);
+      fill(dim.avg >= 4 ? GREEN : dim.avg < 3 ? RED : GOLD);
+      roundRect(dx+3, dy+15, (colW-6)*(dim.score/20), 2, 0.8);
+    });
+
+    py += Math.ceil(dimScores.length/2)*22 + 6;
+
+    /* ── PLAN DE ACCION ── */
+    sectionTitle('PLAN DE 6 SEMANAS', py);
+    py += 8;
+
+    const semanas = ['G','E','N','I','O','S'];
+    semanas.forEach((letter, i) => {
+      if (py > H - 30) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py = 18; }
+      const dim = dimScores.find(d => d.letter === letter);
+      const isFocus = dimScores.indexOf(dim) === focusIndex;
+
+      fill(isFocus ? NAVY : WHITE);
+      doc.setFillColor(...(isFocus ? NAVY : WHITE));
+      roundRect(18, py, W-36, 10, 2);
+      if (!isFocus) {
+        doc.setDrawColor(220,215,205);
+        doc.setLineWidth(0.3);
+        doc.roundedRect(18, py, W-36, 10, 2, 2, 'S');
+      }
+
+      if (isFocus) {
+        fill(GOLD);
+        roundRect(18, py, 4, 10, 1.5);
+      }
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(isFocus ? 240 : 28, isFocus ? 221 : 51, isFocus ? 186 : 92);
+      text(`SEM ${i+1}`, 25, py+6.5);
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(isFocus ? 255 : 23, isFocus ? 255 : 32, isFocus ? 255 : 51);
+      text(`${letter} - ${dim.name}`, 46, py+6.5);
+
+      if (isFocus) {
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(6.5);
+        doc.setCharSpace(1);
+        doc.setTextColor(184,138,59);
+        text('PUNTO DE ENTRADA', W-18, py+6.5, {align:'right'});
+        doc.setCharSpace(0);
+      } else {
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(7);
+        rgb(MUTED);
+        text(`${dim.score}/20`, W-18, py+6.5, {align:'right'});
+      }
+
+      py += 12;
+    });
+
+    py += 4;
+
+    /* ── LETRA DE ENTRADA: 4 ACCIONES ── */
+    if (py > H-60) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py=18; }
+    sectionTitle(`ACCIONES PARA ${focus.letter} - ${focus.name.toUpperCase()}`, py);
+    py += 8;
+
+    focus.actions.forEach((action, i) => {
+      if (py > H-28) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py=18; }
+      fill(WHITE);
+      doc.setFillColor(255,255,255);
+      roundRect(18, py, W-36, 16, 2.5);
+      doc.setDrawColor(220,215,205);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(18, py, W-36, 16, 2.5, 2.5, 'S');
+
+      // number badge
+      fill(NAVY);
+      doc.setFillColor(28,51,92);
+      roundRect(18+3, py+3, 10, 10, 2);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(8);
+      doc.setTextColor(255,255,255);
+      text(`${i+1}`, 18+8, py+10, {align:'center'});
+
+      // title
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(8);
+      rgb(INK);
+      text(action.title, 18+17, py+8);
+
+      // body
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(7.2);
+      rgb(MUTED);
+      const aLines = wrap(action.body, W-56, 7.2);
+      doc.text(aLines, 18+17, py+13);
+
+      py += aLines.length > 1 ? 20 : 18;
+    });
+
+    // — Footer page 2 —
+    fill(GOLD);
+    rect(0, H-10, W, 10);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setTextColor(28,51,92);
+    text('somosgenios.com', W/2, H-4, {align:'center'});
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(28,51,92);
+    const today2 = new Date().toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
+    text(today2, W-18, H-4, {align:'right'});
+    text('2 / 2', 18, H-4);
+
+    /* ── SAVE ── */
+    doc.save('reporte-genios.pdf');
+    toast('✓ PDF descargado.');
+  }
+
+  /* ── STICKY TABS ── */
+  function initScrollSpy() {
+    const sections = ['diagnostico', 'resultado', 'plan', 'mejorar'];
+    const tabs = document.querySelectorAll('.s-tab');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tabs.forEach(t => t.classList.remove('active'));
+          const active = document.querySelector(`.s-tab[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  /* ── INIT ── */
+  function initEvents() {
+    document.getElementById('btnReset').addEventListener('click', resetAll);
+    document.getElementById('btnResetTop').addEventListener('click', resetAll);
+    document.getElementById('btnScrollResults').addEventListener('click', () => document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('btnCopy').addEventListener('click', copyReport);
+    document.getElementById('btnDownload').addEventListener('click', downloadReport);
+    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  }
+
+  renderQuestions();
+  renderPlan();
+  initEvents();
+  initScrollSpy();
+  updateAll();
+</script>
+</body>
+</html>
