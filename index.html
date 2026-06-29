@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Diagnóstico G.E.N.I.O.S. · somosgenios.com</title>
   <meta name="description" content="Mide tu reputación profesional con el sistema G.E.N.I.O.S. 24 conductas, tu perfil, tu hexágono y un plan de acción en 6 semanas." />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --bg: #f4f1eb;
@@ -649,11 +648,309 @@
       .subtotal-badge { grid-column: 1 / -1; justify-self: start; }
       .sticky-progress { display: none; }
     }
+    @page {
+      size: A4;
+      margin: 15mm 14mm 16mm;
+    }
+
     @media print {
-      .hero, .sticky-bar, #diagnostico, #plan, #mejorar, .sidebar, .footer, .toast { display: none !important; }
-      .layout { display: block; padding: 0; }
-      .main { display: block; }
-      .print-report { display: block; padding: 32px; }
+      html, body {
+        background: #ffffff !important;
+        color: #172033 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .hero, .sticky-bar, .sidebar, .footer, .toast,
+      .main > section:not(.print-report) {
+        display: none !important;
+      }
+
+      .shell, .layout, .main {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+      }
+
+      .print-report {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+        color: #172033 !important;
+        font-family: Inter, Arial, sans-serif !important;
+        font-size: 10.2pt !important;
+        line-height: 1.42 !important;
+      }
+
+      .print-report *, .print-report *::before, .print-report *::after {
+        box-sizing: border-box !important;
+        color: inherit;
+        overflow: visible !important;
+        text-shadow: none !important;
+      }
+
+      .pdf-cover {
+        min-height: 250mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 1px solid #d9d1c3;
+        border-radius: 18px;
+        padding: 28mm 18mm;
+        background: linear-gradient(160deg, #172033 0%, #1c335c 68%, #f4ead8 68%, #f4ead8 100%) !important;
+        color: #ffffff !important;
+        page-break-after: always;
+      }
+
+      .pdf-kicker {
+        color: #f0ddba !important;
+        text-transform: uppercase;
+        letter-spacing: .13em;
+        font-size: 9pt;
+        font-weight: 900;
+        margin-bottom: 12px;
+      }
+
+      .print-report h1, .print-report h2, .print-report h3,
+      .print-report p, .print-report ul, .print-report li {
+        margin: 0;
+        padding: 0;
+        line-height: 1.32 !important;
+        letter-spacing: 0 !important;
+      }
+
+      .print-report h1 {
+        font-family: Georgia, 'Times New Roman', serif !important;
+        font-size: 38pt !important;
+        line-height: 1.02 !important;
+        color: #ffffff !important;
+        margin-bottom: 12px !important;
+      }
+
+      .print-report h1 span { color: #f0ddba !important; }
+
+      .pdf-cover p {
+        color: rgba(255,255,255,.84) !important;
+        font-size: 12pt;
+        line-height: 1.55 !important;
+        max-width: 145mm;
+      }
+
+      .pdf-cover-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .pdf-cover-box {
+        border: 1px solid rgba(255,255,255,.28);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(255,255,255,.08) !important;
+      }
+
+      .pdf-cover-box small {
+        display: block;
+        color: rgba(255,255,255,.64) !important;
+        font-size: 7.8pt;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+
+      .pdf-cover-box strong {
+        display: block;
+        color: #ffffff !important;
+        font-size: 15pt;
+        line-height: 1.1 !important;
+      }
+
+      .pdf-page {
+        page-break-before: always;
+      }
+
+      .pdf-section {
+        margin-bottom: 12px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .pdf-card {
+        border: 1px solid #dcd5c9;
+        border-radius: 14px;
+        padding: 14px;
+        background: #ffffff !important;
+      }
+
+      .pdf-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 10px;
+      }
+
+      .pdf-eyebrow {
+        color: #b88a3b !important;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+        font-size: 7.8pt;
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+
+      .print-report h2 {
+        font-family: Georgia, 'Times New Roman', serif !important;
+        font-size: 20pt !important;
+        line-height: 1.12 !important;
+        color: #172033 !important;
+      }
+
+      .print-report h3 {
+        font-size: 10.8pt !important;
+        color: #172033 !important;
+        margin-bottom: 4px !important;
+      }
+
+      .pdf-small {
+        color: #687086 !important;
+        font-size: 9pt !important;
+        line-height: 1.45 !important;
+      }
+
+      .pdf-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .pdf-kpi {
+        border: 1px solid #e3ded4;
+        border-radius: 12px;
+        padding: 9px;
+        background: #fbfaf7 !important;
+      }
+
+      .pdf-kpi span {
+        display: block;
+        color: #687086 !important;
+        font-size: 7.2pt;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+
+      .pdf-kpi strong {
+        display: block;
+        color: #1c335c !important;
+        font-size: 14pt;
+        line-height: 1.05 !important;
+      }
+
+      .pdf-quote {
+        border-left: 4px solid #b88a3b;
+        background: #fbfaf7 !important;
+        border-radius: 0 12px 12px 0;
+        padding: 10px 12px;
+        margin-top: 10px;
+        font-family: Georgia, 'Times New Roman', serif !important;
+        color: #3a2d14 !important;
+        font-size: 10.5pt !important;
+        line-height: 1.45 !important;
+      }
+
+      .pdf-bars { display: grid; gap: 7px; margin-top: 8px; }
+      .pdf-bar { display: grid; grid-template-columns: 55mm 1fr 18mm; gap: 8px; align-items: center; }
+      .pdf-bar-name { font-weight: 900; color: #1c335c !important; font-size: 8.2pt; line-height: 1.14 !important; white-space: normal; }
+      .pdf-bar-rail { height: 7px; border-radius: 99px; background: #eee8dd !important; overflow: hidden !important; }
+      .pdf-bar-fill { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #1c335c, #b88a3b) !important; }
+      .pdf-bar-score { text-align: right; font-size: 8.5pt; color: #687086 !important; font-weight: 800; }
+
+      .pdf-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .pdf-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pdf-list-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #e3ded4;
+        border-radius: 12px;
+        padding: 10px;
+        background: #fbfaf7 !important;
+      }
+
+      .pdf-list-item strong {
+        display: block;
+        color: #172033 !important;
+        margin-bottom: 3px;
+      }
+
+      .pdf-list-item span, .pdf-list-item p {
+        color: #687086 !important;
+        font-size: 8.8pt !important;
+        line-height: 1.45 !important;
+      }
+
+      .pdf-footer-note {
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid #e3ded4;
+        color: #687086 !important;
+        font-size: 8pt !important;
+      }
+
+      .pdf-actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pdf-action {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 8px;
+        align-items: start;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .pdf-action-num {
+        width: 22px; height: 22px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        background: #1c335c !important;
+        color: #ffffff !important;
+        font-size: 8pt;
+        font-weight: 900;
+      }
+
+      .pdf-muted-box {
+        border: 1px dashed #d6c8ae;
+        background: #fffaf0 !important;
+        border-radius: 12px;
+        padding: 10px;
+        color: #4b3412 !important;
+        font-size: 9pt !important;
+        line-height: 1.45 !important;
+      }
     }
 
     /* ── ACCESSIBILITY ── */
@@ -860,7 +1157,7 @@
       <div class="report-actions">
         <button class="btn btn-outline btn-sm" id="btnCopy" type="button">📋 Copiar reporte</button>
         <button class="btn btn-outline btn-sm" id="btnDownload" type="button">⬇ Descargar PDF</button>
-        <button class="btn btn-dark btn-sm" id="btnPrint" type="button">Imprimir</button>
+        <button class="btn btn-dark btn-sm" id="btnPrint" type="button">🖨 Imprimir reporte</button>
       </div>
     </section>
 
@@ -1321,7 +1618,11 @@
     });
   }
 
-  /* ── PRINT REPORT ── */
+  /* ── PRINT / PDF REPORT ── */
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  }
+
   function buildReportText() {
     const state = calculate();
     const { complete, total, answered, level, dimScores, focusIndex, strengthIndex, profileIndex } = state;
@@ -1344,14 +1645,168 @@
     return lines.join('\n');
   }
 
-  function updatePrintReport(state) {
-    const report = document.getElementById('printReport');
-    const text   = buildReportText();
-    report.innerHTML = `<h1>SOMOS G.E.N.I.O.S.</h1><pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.55;">${escapeHTML(text)}</pre>`;
+  function buildPrintableReportHTML() {
+    const state = calculate();
+    const { complete, total, answered, level, dimScores, focusIndex, strengthIndex, profileIndex } = state;
+    const date = new Date().toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+    const scoreLabel = complete ? `${total}/120` : `${answered}/24`;
+    const coverSubtitle = complete
+      ? 'Tu mapa de reputación profesional, nivel, foco de entrada y plan de acción personalizado.'
+      : 'Reporte preliminar. Completa las 24 respuestas para desbloquear tu resultado final.';
+
+    let html = `
+      <article class="pdf-report-shell">
+        <section class="pdf-cover">
+          <div class="pdf-kicker">Diagnóstico de reputación profesional</div>
+          <h1>SOMOS<br><span>G.E.N.I.O.S.</span></h1>
+          <p>${coverSubtitle}</p>
+          <div class="pdf-cover-meta">
+            <div class="pdf-cover-box"><small>Fecha</small><strong>${escapeHTML(date)}</strong></div>
+            <div class="pdf-cover-box"><small>Resultado</small><strong>${escapeHTML(scoreLabel)}</strong></div>
+            <div class="pdf-cover-box"><small>Nivel</small><strong>${complete ? `${level.num} · ${escapeHTML(level.name)}` : 'Pendiente'}</strong></div>
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-title-row">
+            <div>
+              <div class="pdf-eyebrow">Resumen ejecutivo</div>
+              <h2>Tu diagnóstico G.E.N.I.O.S.</h2>
+            </div>
+            <div class="pdf-small">somosgenios.com</div>
+          </div>`;
+
+    if (!complete) {
+      html += `
+          <div class="pdf-muted-box">
+            Para generar un PDF completo y personalizado, responde las 24 afirmaciones del diagnóstico. Actualmente llevas ${answered} de 24 respuestas.
+          </div>
+        </section>
+      </article>`;
+      return html;
+    }
+
+    const focus    = dimScores[focusIndex];
+    const strength = dimScores[strengthIndex];
+    const risk     = riskTable[level.num];
+    const profile  = profiles[profileIndex];
+
+    html += `
+          <div class="pdf-kpis">
+            <div class="pdf-kpi"><span>Puntaje</span><strong>${total}/120</strong></div>
+            <div class="pdf-kpi"><span>Nivel</span><strong>${level.num} · ${escapeHTML(level.name)}</strong></div>
+            <div class="pdf-kpi"><span>Fortaleza</span><strong>${strength.letter}</strong></div>
+            <div class="pdf-kpi"><span>Foco</span><strong>${focus.letter}</strong></div>
+          </div>
+          <div class="pdf-quote">“${escapeHTML(level.phrase)}”</div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-eyebrow">Mapa de conducta</div>
+          <h2>Subtotales por letra</h2>
+          <div class="pdf-bars">`;
+
+    dimScores.forEach(d => {
+      const pct = Math.max(0, Math.min(100, Math.round((d.score / 20) * 100)));
+      html += `
+            <div class="pdf-bar">
+              <div class="pdf-bar-name">${d.letter} · ${escapeHTML(d.name)}</div>
+              <div class="pdf-bar-rail"><span class="pdf-bar-fill" style="width:${pct}%"></span></div>
+              <div class="pdf-bar-score">${d.score}/20</div>
+            </div>`;
+    });
+
+    html += `
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-two-col">
+          <div class="pdf-card">
+            <div class="pdf-eyebrow">Fortaleza</div>
+            <h3>${strength.letter} · ${escapeHTML(strength.name)}</h3>
+            <p class="pdf-small">Es la conducta que aparece con mayor fuerza en tu autoevaluación. Úsala como base para construir evidencia profesional.</p>
+          </div>
+          <div class="pdf-card">
+            <div class="pdf-eyebrow">Letra de entrada</div>
+            <h3>${focus.letter} · ${escapeHTML(focus.name)}</h3>
+            <p class="pdf-small">Es el punto donde una mejora concreta puede aumentar con más velocidad tu reputación observable.</p>
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-eyebrow">Riesgo, prioridad y pregunta</div>
+          <h2>Tu siguiente paso</h2>
+          <div class="pdf-list">
+            <div class="pdf-list-item"><strong>Riesgo</strong><span>${escapeHTML(risk.riesgo)}</span></div>
+            <div class="pdf-list-item"><strong>Prioridad</strong><span>${escapeHTML(risk.prioridad)}</span></div>
+            <div class="pdf-list-item"><strong>Pregunta de avance</strong><span>${escapeHTML(risk.pregunta)}</span></div>
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-eyebrow">Perfil sugerido</div>
+          <h2>${escapeHTML(profile.name)}</h2>
+          <div class="pdf-list">
+            <div class="pdf-list-item"><strong>Riesgo del perfil</strong><span>${escapeHTML(profile.riesgo)}</span></div>
+            <div class="pdf-list-item"><strong>Punto de entrada</strong><span>${escapeHTML(profile.entrada)}</span></div>
+            <div class="pdf-list-item"><strong>Pregunta clave</strong><span>${escapeHTML(profile.pregunta)}</span></div>
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-eyebrow">Acciones concretas</div>
+          <h2>Practica tu letra de entrada</h2>
+          <p class="pdf-small">Trabaja ${focus.letter} · ${escapeHTML(focus.name)} con acciones pequeñas, visibles y repetibles.</p>
+          <div class="pdf-actions-grid">`;
+
+    focus.actions.forEach((a, i) => {
+      html += `
+            <div class="pdf-action">
+              <div class="pdf-action-num">${i + 1}</div>
+              <div><h3>${escapeHTML(a.title)}</h3><p class="pdf-small">${escapeHTML(a.body)}</p></div>
+            </div>`;
+    });
+
+    html += `
+          </div>
+        </section>
+
+        <section class="pdf-section pdf-card">
+          <div class="pdf-eyebrow">Plan de 6 semanas</div>
+          <h2>Una letra por semana</h2>
+          <div class="pdf-list">`;
+
+    weeklyPlan.forEach((week, i) => {
+      html += `
+            <div class="pdf-list-item">
+              <strong>${escapeHTML(week.title)}</strong>
+              <span>${escapeHTML(week.body).replace(/\n/g, '<br>')}</span>
+            </div>`;
+    });
+
+    html += `
+          </div>
+          <div class="pdf-footer-note">Basado en el libro «Somos G.E.N.I.O.S.» de Kevin Lück · somosgenios.com</div>
+        </section>
+      </article>`;
+
+    return html;
   }
 
-  function escapeHTML(s) {
-    return s.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  function updatePrintReport() {
+    const report = document.getElementById('printReport');
+    report.innerHTML = buildPrintableReportHTML();
+  }
+
+  function openPDFDialog() {
+    updatePrintReport();
+    const previousTitle = document.title;
+    document.title = 'Reporte Diagnostico GENIOS';
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => { document.title = previousTitle; }, 500);
+    }, 80);
+    toast('En la ventana de impresión, elige “Guardar como PDF”.');
   }
 
   /* ── TOAST ── */
@@ -1387,660 +1842,6 @@
     }
   }
 
-  function downloadReport() {
-    const state = calculate();
-    if (!state.complete) {
-      toast('⚠ Completa las 24 respuestas para descargar el PDF.');
-      return;
-    }
-    generatePDF(state);
-    toast('⬇ Generando PDF…');
-  }
-
-  /* ══════════════════════════════════════════════
-     PDF GENERATOR — jsPDF canvas approach
-     Paleta: navy #1c335c · oro #b88a3b · crema #f4f1eb · blanco
-  ══════════════════════════════════════════════ */
-  function generatePDF(state) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-    const W = 210, H = 297;
-    const NAVY  = [28,  51,  92];
-    const NAVY2 = [24,  39,  66];
-    const GOLD  = [184, 138, 59];
-    const CREAM = [244, 241, 235];
-    const INK   = [23,  32,  51];
-    const MUTED = [104, 112, 134];
-    const WHITE = [255, 255, 255];
-    const GREEN = [34,  113, 92];
-    const RED   = [168, 69,  56];
-
-    const { dimScores, total, level, focusIndex, strengthIndex, profileIndex, answered } = state;
-    const focus    = dimScores[focusIndex];
-    const strength = dimScores[strengthIndex];
-    const risk     = riskTable[level.num];
-    const profile  = profiles[profileIndex];
-
-    /* ── helpers ── */
-    function rgb(c) { doc.setTextColor(c[0], c[1], c[2]); }
-    function fill(c) { doc.setFillColor(c[0], c[1], c[2]); }
-    function stroke(c, lw=0.3) { doc.setDrawColor(c[0], c[1], c[2]); doc.setLineWidth(lw); }
-    function rect(x, y, w, h, style='F') { doc.rect(x, y, w, h, style); }
-    function roundRect(x, y, w, h, r, style='F') { doc.roundedRect(x, y, w, h, r, r, style); }
-
-    function text(t, x, y, opts={}) {
-      const safe = String(t)
-        .replace(/\u2019/g,"'").replace(/\u2018/g,"'")
-        .replace(/\u201C/g,'"').replace(/\u201D/g,'"')
-        .replace(/\u2014/g,'--').replace(/\u2013/g,'-')
-        .replace(/\u00e9/g,'e').replace(/\u00f3/g,'o')
-        .replace(/\u00fa/g,'u').replace(/\u00ed/g,'i')
-        .replace(/\u00e1/g,'a').replace(/[^\x00-\x7F]/g, c => {
-          const map = {'\u00e0':'a','\u00e2':'a','\u00e4':'a','\u00e8':'e','\u00ea':'e','\u00eb':'e',
-            '\u00ee':'i','\u00ef':'i','\u00f4':'o','\u00f6':'o','\u00f9':'u','\u00fb':'u','\u00fc':'u',
-            '\u00e7':'c','\u00f1':'n','\u00da':'U','\u00c9':'E','\u00d3':'O','\u00cd':'I','\u00c1':'A',
-            '\u00bf':'?','\u00a1':'!','\u00fc':'u','\u00e3':'a','\u00f5':'o'};
-          return map[c] || '?';
-        });
-      doc.text(safe, x, y, opts);
-    }
-
-    /* wrap text to fit width, returns array of lines */
-    function wrap(t, maxW, fontSize) {
-      doc.setFontSize(fontSize);
-      return doc.splitTextToSize(String(t)
-        .replace(/\u2019/g,"'").replace(/\u2018/g,"'")
-        .replace(/\u201C/g,'"').replace(/\u201D/g,'"')
-        .replace(/\u2014/g,'--').replace(/\u2013/g,'-')
-        .replace(/[\u00e0\u00e2\u00e4]/g,'a').replace(/[\u00e8\u00ea\u00eb]/g,'e')
-        .replace(/[\u00ee\u00ef]/g,'i').replace(/[\u00f4\u00f6]/g,'o')
-        .replace(/[\u00f9\u00fb\u00fc]/g,'u').replace(/\u00e7/g,'c')
-        .replace(/\u00f1/g,'n').replace(/\u00e9/g,'e').replace(/\u00f3/g,'o')
-        .replace(/\u00fa/g,'u').replace(/\u00ed/g,'i').replace(/\u00e1/g,'a')
-        .replace(/[^\x00-\x7F]/g,'?'), maxW);
-    }
-
-    /* draw radar polygon on canvas */
-    function drawRadarOnPage(cx, cy, radius, scores) {
-      const N = 6;
-      const ang = i => (-90 + (360/N)*i) * Math.PI / 180;
-      const pt  = (r, i) => ({ x: cx + r*Math.cos(ang(i)), y: cy + r*Math.sin(ang(i)) });
-
-      // grid rings
-      stroke([220,215,205], 0.25);
-      [1,2,3,4,5].forEach(ring => {
-        const r = radius*(ring/5);
-        const pts = Array.from({length:N}, (_,i) => pt(r,i));
-        doc.setDrawColor(200,195,185);
-        doc.setLineWidth(ring===5?0.5:0.2);
-        doc.lines(pts.slice(1).map((p,i) => [p.x-pts[i].x, p.y-pts[i].y]),
-          pts[0].x, pts[0].y, [1,1], 'S', true);
-      });
-
-      // axes + labels
-      const letters = ['G','E','N','I','O','S'];
-      scores.forEach((score,i) => {
-        const outer = pt(radius,i);
-        stroke(NAVY, 0.25);
-        doc.setDrawColor(150,160,185);
-        doc.setLineWidth(0.25);
-        doc.line(cx, cy, outer.x, outer.y);
-
-        // letter label
-        const lp = pt(radius+8, i);
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(8);
-        rgb(INK);
-        const avg = score/4;
-        text(`${letters[i]} ${avg.toFixed(1)}`, lp.x, lp.y, {align:'center', baseline:'middle'});
-      });
-
-      // shape fill
-      const vals = scores.map((s,i) => pt(radius * Math.max(0, Math.min(1, (s/4)/5)), i));
-      doc.setFillColor(184,138,59, 0.28);
-      doc.setFillColor(184,138,59);
-      // draw filled shape
-      doc.saveGraphicsState();
-      doc.setGState(new doc.GState({opacity:0.28}));
-      fill(GOLD);
-      doc.lines(vals.slice(1).map((p,i) => [p.x-vals[i].x, p.y-vals[i].y]),
-        vals[0].x, vals[0].y, [1,1], 'F', true);
-      doc.restoreGraphicsState();
-
-      // shape stroke
-      stroke(GOLD, 1.2);
-      doc.lines(vals.slice(1).map((p,i) => [p.x-vals[i].x, p.y-vals[i].y]),
-        vals[0].x, vals[0].y, [1,1], 'S', true);
-
-      // dots
-      fill(NAVY);
-      vals.forEach(p => { doc.circle(p.x, p.y, 1.6, 'F'); });
-    }
-
-    /* ════════════════════
-       PAGE 1 — PORTADA
-    ════════════════════ */
-
-    // Full navy background
-    fill(NAVY);
-    rect(0, 0, W, H);
-
-    // Decorative gold accent strip left
-    fill(GOLD);
-    rect(0, 0, 5, H);
-
-    // Subtle dot grid texture overlay (decorative lines)
-    stroke([255,255,255], 0.1);
-    doc.setDrawColor(255,255,255);
-    doc.setLineWidth(0.08);
-    for (let x = 20; x < W; x += 18) {
-      for (let y = 20; y < H; y += 18) {
-        doc.circle(x, y, 0.3, 'F');
-      }
-    }
-
-    // Large decorative circle — bottom right
-    doc.setDrawColor(184,138,59);
-    doc.setLineWidth(0.5);
-    doc.setFillColor(184,138,59);
-    doc.saveGraphicsState();
-    doc.setGState(new doc.GState({opacity:0.08}));
-    doc.circle(195, 270, 90, 'F');
-    doc.restoreGraphicsState();
-
-    doc.saveGraphicsState();
-    doc.setGState(new doc.GState({opacity:0.12}));
-    doc.circle(195, 270, 65, 'F');
-    doc.restoreGraphicsState();
-
-    // — Header area —
-    // Kicker line
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(184,138,59);
-    doc.setCharSpace(2);
-    text('DIAGNOSTICO DE REPUTACION PROFESIONAL', 18, 28);
-    doc.setCharSpace(0);
-
-    // Thin gold rule
-    fill(GOLD);
-    rect(18, 31, 90, 0.5);
-
-    // Main title
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(46);
-    doc.setTextColor(255,255,255);
-    text('SOMOS', 18, 52);
-
-    doc.setFontSize(46);
-    doc.setTextColor(240,221,186);
-    text('G.E.N.I.O.S.', 18, 65);
-
-    // Subtitle
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(10);
-    doc.setTextColor(255,255,255);
-    doc.setGState && doc.saveGraphicsState();
-    rgb([200,210,230]);
-    const subtitleLines = wrap('Sistema de Conductas para la Reputacion Profesional', 100, 10);
-    doc.text(subtitleLines, 18, 76);
-    doc.restoreGraphicsState && doc.restoreGraphicsState();
-
-    // — Score hero box —
-    // Background card
-    doc.setFillColor(255,255,255);
-    doc.saveGraphicsState();
-    doc.setGState(new doc.GState({opacity:0.07}));
-    roundRect(18, 88, W-36, 44, 4);
-    doc.restoreGraphicsState();
-
-    stroke(GOLD, 0.5);
-    doc.setDrawColor(184,138,59);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(18, 88, W-36, 44, 4, 4, 'S');
-
-    // Score columns
-    const cols = [
-      { label: 'PUNTAJE TOTAL', val: `${total}`, sub: 'de 120 puntos' },
-      { label: 'NIVEL', val: `${level.num}`, sub: level.name },
-      { label: 'RESPONDIDAS', val: `${answered}`, sub: 'de 24 conductas' }
-    ];
-    cols.forEach((col, i) => {
-      const cx2 = 18 + i*(W-36)/3 + (W-36)/6;
-      if (i > 0) {
-        doc.setDrawColor(184,138,59);
-        doc.setLineWidth(0.3);
-        doc.setGState && doc.saveGraphicsState();
-        doc.saveGraphicsState();
-        doc.setGState(new doc.GState({opacity:0.3}));
-        doc.line(18 + i*(W-36)/3, 93, 18 + i*(W-36)/3, 127);
-        doc.restoreGraphicsState();
-      }
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(6.5);
-      doc.setCharSpace(1.5);
-      doc.setTextColor(184,138,59);
-      text(col.label, cx2, 97, {align:'center'});
-      doc.setCharSpace(0);
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(28);
-      doc.setTextColor(255,255,255);
-      text(col.val, cx2, 114, {align:'center'});
-
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(8);
-      doc.setTextColor(200,210,230);
-      text(col.sub, cx2, 121, {align:'center'});
-    });
-
-    // — Level phrase quote —
-    if (level.phrase) {
-      fill(GOLD);
-      rect(18, 138, 3, 20);
-      doc.setFont('helvetica','italic');
-      doc.setFontSize(11);
-      rgb([240,221,186]);
-      const phraseLines = wrap(`"${level.phrase}"`, 150, 11);
-      doc.text(phraseLines, 26, 144);
-    }
-
-    // — Radar —
-    const radarCX = 155, radarCY = 178, radarR = 38;
-    const scores = dimScores.map(d => d.score);
-    drawRadarOnPage(radarCX, radarCY, radarR, scores);
-
-    // Radar title
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
-    doc.setCharSpace(1.5);
-    doc.setTextColor(184,138,59);
-    text('HEXAGONO G.E.N.I.O.S.', radarCX, 134, {align:'center'});
-    doc.setCharSpace(0);
-
-    // — Fortaleza / Foco sidebar boxes —
-    const boxY = 143;
-    [
-      { label:'FORTALEZA', val:`${strength.letter} - ${strength.name}`, color:GREEN },
-      { label:'LETRA DE ENTRADA', val:`${focus.letter} - ${focus.name}`, color:GOLD }
-    ].forEach((item, i) => {
-      const bx = 18, by = boxY + i*28;
-      doc.setFillColor(255,255,255);
-      doc.saveGraphicsState();
-      doc.setGState(new doc.GState({opacity:0.06}));
-      roundRect(bx, by, 110, 22, 3);
-      doc.restoreGraphicsState();
-      doc.setDrawColor(item.color[0], item.color[1], item.color[2]);
-      doc.setLineWidth(0.4);
-      doc.roundedRect(bx, by, 110, 22, 3, 3, 'S');
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(6);
-      doc.setCharSpace(1.5);
-      doc.setTextColor(item.color[0], item.color[1], item.color[2]);
-      text(item.label, bx+6, by+7);
-      doc.setCharSpace(0);
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(10);
-      doc.setTextColor(255,255,255);
-      text(item.val, bx+6, by+16);
-    });
-
-    // — Profile banner —
-    const profY = 207;
-    fill(NAVY2);
-    doc.saveGraphicsState();
-    doc.setGState(new doc.GState({opacity:0.6}));
-    roundRect(18, profY, W-36, 30, 3);
-    doc.restoreGraphicsState();
-    fill(GOLD);
-    roundRect(18, profY, 3.5, 30, 1.5);
-
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(6.5);
-    doc.setCharSpace(1.2);
-    doc.setTextColor(184,138,59);
-    text('PERFIL SUGERIDO', 27, profY+8);
-    doc.setCharSpace(0);
-
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(13);
-    doc.setTextColor(255,255,255);
-    text(profile.name.toUpperCase(), 27, profY+18);
-
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(8);
-    doc.setTextColor(200,210,230);
-    const profRiesgoLines = wrap(`Riesgo: ${profile.riesgo}`, 150, 8);
-    doc.text(profRiesgoLines, 27, profY+25);
-
-    // — Bar chart subtotals —
-    const barStartY = 242;
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
-    doc.setCharSpace(1.5);
-    doc.setTextColor(184,138,59);
-    text('SUBTOTALES POR DIMENSION', 18, barStartY-5);
-    doc.setCharSpace(0);
-
-    dimScores.forEach((dim, i) => {
-      const bx = 18, by = barStartY + i*5.5;
-      const pct = dim.score / 20;
-      const barW = 120;
-
-      // label
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7);
-      doc.setTextColor(200,210,230);
-      text(dim.letter, bx, by+3.5);
-
-      // rail
-      doc.setFillColor(255,255,255);
-      doc.saveGraphicsState();
-      doc.setGState(new doc.GState({opacity:0.1}));
-      roundRect(bx+8, by+0.5, barW, 3.5, 1);
-      doc.restoreGraphicsState();
-
-      // fill
-      fill(GOLD);
-      doc.saveGraphicsState();
-      doc.setGState(new doc.GState({opacity: 0.5+pct*0.5}));
-      roundRect(bx+8, by+0.5, barW*pct, 3.5, 1);
-      doc.restoreGraphicsState();
-
-      // score
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7);
-      doc.setTextColor(240,221,186);
-      text(`${dim.score}/20`, bx+barW+12, by+3.5, {align:'right'});
-    });
-
-    // — Footer page 1 —
-    fill(GOLD);
-    rect(0, H-10, W, 10);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
-    doc.setTextColor(28,51,92);
-    text('somosgenios.com', W/2, H-4, {align:'center'});
-
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(200,210,230);
-    const today = new Date().toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
-    text(today, W-18, H-4, {align:'right'});
-    text('1 / 2', 18, H-4);
-
-    /* ════════════════════
-       PAGE 2 — DETALLE
-    ════════════════════ */
-    doc.addPage();
-
-    // Cream background
-    fill(CREAM);
-    rect(0, 0, W, H);
-
-    // Navy top bar
-    fill(NAVY);
-    rect(0, 0, W, 22);
-    fill(GOLD);
-    rect(0, 22, W, 1.5);
-
-    // Page header
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(9);
-    doc.setTextColor(255,255,255);
-    text('SOMOS G.E.N.I.O.S.  |  Reporte Completo', 18, 14);
-
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(8);
-    doc.setTextColor(184,138,59);
-    text(`${level.num} - ${level.name}  /  ${total} pts`, W-18, 14, {align:'right'});
-
-    let py = 34; // current Y cursor
-
-    /* ── RISK / PRIORITY / QUESTION section ── */
-    const sectionTitle = (t, y) => {
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7);
-      doc.setCharSpace(1.5);
-      doc.setTextColor(184,138,59);
-      text(t, 18, y);
-      doc.setCharSpace(0);
-      stroke(GOLD,0.4);
-      doc.setDrawColor(184,138,59);
-      doc.setLineWidth(0.4);
-      doc.line(18, y+2, W-18, y+2);
-    };
-
-    sectionTitle('SIGUIENTE PASO: RIESGO, PRIORIDAD Y PREGUNTA', py);
-    py += 8;
-
-    const blocks = [
-      { icon:'RIESGO', content: risk.riesgo, accent: RED },
-      { icon:'PRIORIDAD', content: risk.prioridad, accent: NAVY },
-      { icon:'PREGUNTA DE AVANCE', content: risk.pregunta, accent: GOLD }
-    ];
-
-    blocks.forEach(b => {
-      fill(WHITE);
-      doc.setFillColor(255,255,255);
-      roundRect(18, py, W-36, 14, 2.5);
-      doc.setDrawColor(b.accent[0],b.accent[1],b.accent[2]);
-      doc.setLineWidth(0.35);
-      doc.roundedRect(18, py, W-36, 14, 2.5, 2.5, 'S');
-      fill(b.accent);
-      roundRect(18, py, 3.5, 14, 1.5);
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(6);
-      doc.setCharSpace(1.2);
-      doc.setTextColor(b.accent[0],b.accent[1],b.accent[2]);
-      text(b.icon, 27, py+5);
-      doc.setCharSpace(0);
-
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(8.5);
-      rgb(INK);
-      const lines = wrap(b.content, W-50, 8.5);
-      doc.text(lines, 27, py+10);
-      py += 18;
-    });
-
-    py += 4;
-
-    /* ── PERFIL DETALLE ── */
-    sectionTitle('PERFIL G.E.N.I.O.S. SUGERIDO', py);
-    py += 8;
-
-    fill(NAVY);
-    doc.setFillColor(28,51,92);
-    roundRect(18, py, W-36, 24, 3);
-    fill(GOLD);
-    roundRect(18, py, 4, 24, 2);
-
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(12);
-    doc.setTextColor(255,255,255);
-    text(profile.name.toUpperCase(), 28, py+9);
-
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(8);
-    doc.setTextColor(200,210,230);
-    const profLines2 = wrap(`Punto de entrada: ${profile.entrada}  |  Riesgo: ${profile.riesgo}`, W-56, 8);
-    doc.text(profLines2, 28, py+15);
-
-    doc.setFont('helvetica','italic');
-    doc.setFontSize(8);
-    doc.setTextColor(240,221,186);
-    const profQ = wrap(profile.pregunta, W-56, 8);
-    doc.text(profQ, 28, py+21);
-    py += 30;
-
-    /* ── DIMENSIONES DETALLE ── */
-    sectionTitle('PUNTAJE POR DIMENSION', py);
-    py += 8;
-
-    const colW = (W-36-8) / 2;
-    dimScores.forEach((dim, i) => {
-      const col = i % 2;
-      const row = Math.floor(i / 2);
-      const dx = 18 + col*(colW+8);
-      const dy = py + row*22;
-
-      // card bg
-      fill(WHITE);
-      doc.setFillColor(255,255,255);
-      roundRect(dx, dy, colW, 18, 2.5);
-      doc.setDrawColor(220,215,205);
-      doc.setLineWidth(0.3);
-      doc.roundedRect(dx, dy, colW, 18, 2.5, 2.5, 'S');
-
-      // letter badge
-      fill(NAVY);
-      doc.setFillColor(28,51,92);
-      roundRect(dx+3, dy+3, 12, 12, 2);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(9);
-      doc.setTextColor(255,255,255);
-      text(dim.letter, dx+9, dy+11, {align:'center'});
-
-      // name
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7.5);
-      rgb(INK);
-      text(dim.name, dx+19, dy+8);
-
-      // score text
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(11);
-      doc.setTextColor(28,51,92);
-      text(`${dim.score}`, dx+19, dy+15);
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(7);
-      rgb(MUTED);
-      text(`/ 20  (avg ${dim.avg.toFixed(1)})`, dx+27, dy+15);
-
-      // mini bar
-      doc.setFillColor(228,222,210);
-      roundRect(dx+3, dy+15, colW-6, 2, 0.8);
-      fill(dim.avg >= 4 ? GREEN : dim.avg < 3 ? RED : GOLD);
-      roundRect(dx+3, dy+15, (colW-6)*(dim.score/20), 2, 0.8);
-    });
-
-    py += Math.ceil(dimScores.length/2)*22 + 6;
-
-    /* ── PLAN DE ACCION ── */
-    sectionTitle('PLAN DE 6 SEMANAS', py);
-    py += 8;
-
-    const semanas = ['G','E','N','I','O','S'];
-    semanas.forEach((letter, i) => {
-      if (py > H - 30) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py = 18; }
-      const dim = dimScores.find(d => d.letter === letter);
-      const isFocus = dimScores.indexOf(dim) === focusIndex;
-
-      fill(isFocus ? NAVY : WHITE);
-      doc.setFillColor(...(isFocus ? NAVY : WHITE));
-      roundRect(18, py, W-36, 10, 2);
-      if (!isFocus) {
-        doc.setDrawColor(220,215,205);
-        doc.setLineWidth(0.3);
-        doc.roundedRect(18, py, W-36, 10, 2, 2, 'S');
-      }
-
-      if (isFocus) {
-        fill(GOLD);
-        roundRect(18, py, 4, 10, 1.5);
-      }
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7.5);
-      doc.setTextColor(isFocus ? 240 : 28, isFocus ? 221 : 51, isFocus ? 186 : 92);
-      text(`SEM ${i+1}`, 25, py+6.5);
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(7.5);
-      doc.setTextColor(isFocus ? 255 : 23, isFocus ? 255 : 32, isFocus ? 255 : 51);
-      text(`${letter} - ${dim.name}`, 46, py+6.5);
-
-      if (isFocus) {
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(6.5);
-        doc.setCharSpace(1);
-        doc.setTextColor(184,138,59);
-        text('PUNTO DE ENTRADA', W-18, py+6.5, {align:'right'});
-        doc.setCharSpace(0);
-      } else {
-        doc.setFont('helvetica','normal');
-        doc.setFontSize(7);
-        rgb(MUTED);
-        text(`${dim.score}/20`, W-18, py+6.5, {align:'right'});
-      }
-
-      py += 12;
-    });
-
-    py += 4;
-
-    /* ── LETRA DE ENTRADA: 4 ACCIONES ── */
-    if (py > H-60) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py=18; }
-    sectionTitle(`ACCIONES PARA ${focus.letter} - ${focus.name.toUpperCase()}`, py);
-    py += 8;
-
-    focus.actions.forEach((action, i) => {
-      if (py > H-28) { doc.addPage(); fill(CREAM); rect(0,0,W,H); py=18; }
-      fill(WHITE);
-      doc.setFillColor(255,255,255);
-      roundRect(18, py, W-36, 16, 2.5);
-      doc.setDrawColor(220,215,205);
-      doc.setLineWidth(0.3);
-      doc.roundedRect(18, py, W-36, 16, 2.5, 2.5, 'S');
-
-      // number badge
-      fill(NAVY);
-      doc.setFillColor(28,51,92);
-      roundRect(18+3, py+3, 10, 10, 2);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(8);
-      doc.setTextColor(255,255,255);
-      text(`${i+1}`, 18+8, py+10, {align:'center'});
-
-      // title
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(8);
-      rgb(INK);
-      text(action.title, 18+17, py+8);
-
-      // body
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(7.2);
-      rgb(MUTED);
-      const aLines = wrap(action.body, W-56, 7.2);
-      doc.text(aLines, 18+17, py+13);
-
-      py += aLines.length > 1 ? 20 : 18;
-    });
-
-    // — Footer page 2 —
-    fill(GOLD);
-    rect(0, H-10, W, 10);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
-    doc.setTextColor(28,51,92);
-    text('somosgenios.com', W/2, H-4, {align:'center'});
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(28,51,92);
-    const today2 = new Date().toLocaleDateString('es-CL',{day:'2-digit',month:'long',year:'numeric'});
-    text(today2, W-18, H-4, {align:'right'});
-    text('2 / 2', 18, H-4);
-
-    /* ── SAVE ── */
-    doc.save('reporte-genios.pdf');
-    toast('✓ PDF descargado.');
-  }
 
   /* ── STICKY TABS ── */
   function initScrollSpy() {
@@ -2067,8 +1868,8 @@
     document.getElementById('btnResetTop').addEventListener('click', resetAll);
     document.getElementById('btnScrollResults').addEventListener('click', () => document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' }));
     document.getElementById('btnCopy').addEventListener('click', copyReport);
-    document.getElementById('btnDownload').addEventListener('click', downloadReport);
-    document.getElementById('btnPrint').addEventListener('click', () => window.print());
+    document.getElementById('btnDownload').addEventListener('click', openPDFDialog);
+    document.getElementById('btnPrint').addEventListener('click', openPDFDialog);
   }
 
   renderQuestions();
