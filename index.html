@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Diagnóstico G.E.N.I.O.S. · somosgenios.com</title>
+  <title>Diagnóstico G.E.N.I.O.S. · @somosgenios</title>
   <meta name="description" content="Mide tu reputación profesional con el sistema G.E.N.I.O.S. 24 conductas, tu perfil, tu hexágono y un plan de acción en 6 semanas." />
   <style>
     :root {
@@ -174,6 +174,7 @@
       color: rgba(255,255,255,.6);
       font-size: .82rem; font-weight: 700;
       white-space: nowrap;
+      flex: 0 0 auto;
       border: 1px solid transparent;
       transition: all .15s ease;
     }
@@ -215,6 +216,8 @@
       padding: 28px 0 64px;
     }
     .main { display: grid; gap: 20px; }
+    .main > section, .sidebar > section { scroll-margin-top: 76px; }
+    .card, .question, .week-card, .action-item, .info-box, .next-block { overflow-wrap: anywhere; }
     .sidebar { position: sticky; top: 56px; display: grid; gap: 16px; }
 
     /* ── CARDS ── */
@@ -277,18 +280,24 @@
       padding: 10px 8px;
       text-align: center;
       background: var(--panel-2);
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: 6px;
+      min-width: 0;
     }
     .scale-item .val {
-      display: block;
+      display: grid;
+      place-items: center;
       width: 32px; height: 32px;
-      margin: 0 auto 6px;
+      margin: 0 auto;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       color: white;
       font-weight: 900; font-size: .95rem;
-      line-height: 32px;
+      line-height: 1;
     }
-    .scale-item .lbl { font-size: .72rem; color: var(--muted); line-height: 1.2; }
+    .scale-item .lbl { display: block; width: 100%; text-align: center; font-size: .72rem; color: var(--muted); line-height: 1.2; }
 
     /* ── PROGRESS ── */
     .progress-wrap { display: grid; gap: 8px; margin-bottom: 20px; }
@@ -648,6 +657,196 @@
       .subtotal-badge { grid-column: 1 / -1; justify-self: start; }
       .sticky-progress { display: none; }
     }
+
+    /* ── MOBILE POLISH ── */
+    @media (max-width: 640px) {
+      html, body { overflow-x: hidden; }
+      body { background: #f7f3ec; }
+      .shell { width: min(100% - 24px, var(--max)); }
+
+      .hero {
+        padding: 30px 0 24px;
+        border-radius: 0 0 26px 26px;
+      }
+      .hero::after {
+        width: 300px; height: 300px;
+        right: -150px; bottom: -120px;
+      }
+      .hero-badge {
+        max-width: 100%;
+        white-space: normal;
+        line-height: 1.25;
+        font-size: .68rem;
+        letter-spacing: .09em;
+      }
+      h1 {
+        font-size: clamp(2.35rem, 15vw, 3.7rem);
+        line-height: .94;
+        margin-bottom: 14px;
+      }
+      .hero-desc {
+        font-size: .95rem;
+        line-height: 1.55;
+        margin-bottom: 20px;
+      }
+      .hero-actions { display: grid; grid-template-columns: 1fr; gap: 9px; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+      }
+      .hero-stat {
+        min-width: 0;
+        padding: 11px 6px;
+        border-radius: 14px;
+        white-space: normal;
+      }
+      .hero-stat b { font-size: 1.45rem; }
+      .hero-stat span { font-size: .58rem; line-height: 1.15; letter-spacing: .07em; }
+
+      .sticky-bar { top: 0; }
+      .sticky-inner { padding: 8px 0; gap: 8px; }
+      .sticky-tabs { gap: 6px; padding-bottom: 1px; }
+      .s-tab {
+        padding: 7px 10px;
+        font-size: .74rem;
+        letter-spacing: -.01em;
+      }
+
+      .layout { padding: 18px 0 42px; gap: 16px; }
+      .main { gap: 16px; }
+      .card { border-radius: 18px; box-shadow: 0 6px 22px rgba(28,51,92,.06); }
+      .card-pad { padding: 18px 15px; }
+      h2 { font-size: clamp(1.35rem, 7vw, 1.75rem); line-height: 1.12; }
+      h3 { font-size: .96rem; }
+      .small { font-size: .86rem; line-height: 1.5; }
+
+      #diagnostico > .card-pad, #diagnostico { min-width: 0; }
+      #diagnostico > div:first-child {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+      #btnReset { width: 100%; justify-content: center; }
+      .progress-meta { gap: 10px; }
+      .progress-meta .small { font-size: .8rem; }
+
+      .scale-legend {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .scale-item {
+        display: grid;
+        justify-items: center;
+        align-content: start;
+        gap: 6px;
+        text-align: center;
+        padding: 9px 4px;
+        min-height: 78px;
+      }
+      .scale-item .val {
+        margin: 0 auto;
+        width: 30px; height: 30px;
+        line-height: 1;
+      }
+      .scale-item .lbl {
+        font-size: .64rem;
+        line-height: 1.14;
+        letter-spacing: -.01em;
+      }
+
+      .dimension { padding-top: 20px; margin-top: 20px; }
+      .dimension-header {
+        grid-template-columns: 44px 1fr;
+        gap: 11px;
+        align-items: start;
+      }
+      .dim-letter {
+        width: 44px; height: 44px;
+        border-radius: 14px;
+        font-size: 1.12rem;
+      }
+      .dim-plan { font-size: .78rem; line-height: 1.38; }
+      .subtotal-badge {
+        grid-column: 1 / -1;
+        justify-self: start;
+        padding: 7px 12px;
+        font-size: .78rem;
+      }
+      .question-list { gap: 10px; }
+      .question {
+        border-radius: 16px;
+        padding: 13px;
+        gap: 10px;
+      }
+      .question p { font-size: .88rem; line-height: 1.5; }
+      .q-num {
+        width: 20px; height: 20px;
+        border-radius: 6px;
+        margin-right: 6px;
+      }
+      .scale { gap: 5px; }
+      .scale label {
+        height: 46px;
+        border-radius: 12px;
+        font-size: .9rem;
+      }
+      .scale-help { font-size: .67rem; }
+
+      .sidebar { gap: 14px; }
+      .result-header {
+        padding: 16px 15px 0;
+        gap: 10px;
+      }
+      .live-pill { font-size: .68rem; padding: 5px 9px; }
+      .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+      .kpi { padding: 10px 7px; border-radius: 12px; }
+      .kpi span { font-size: .58rem; letter-spacing: .06em; }
+      .kpi b { font-size: 1.2rem; }
+      .kpi small { font-size: .66rem; }
+      .quote-block {
+        padding: 12px 13px;
+        font-size: .88rem;
+        line-height: 1.5;
+      }
+      #radarSvg { max-width: 260px; }
+      .bar-row { grid-template-columns: 22px 1fr 38px; gap: 7px; }
+      .next-block, .info-box, .week-card, .action-item { border-radius: 14px; }
+      .profile-banner { border-radius: 15px; padding: 14px; }
+      .report-actions { display: grid; grid-template-columns: 1fr; }
+      .report-actions .btn { width: 100%; justify-content: center; }
+      .plan-grid { grid-template-columns: 1fr; gap: 10px; }
+      .week-card { padding: 14px; }
+      .week-card-head { gap: 8px; }
+      .week-check { width: 24px; height: 24px; }
+      .action-item {
+        grid-template-columns: 32px 1fr;
+        gap: 10px;
+        padding: 12px;
+      }
+      .action-num { width: 32px; height: 32px; border-radius: 10px; }
+      .footer { padding: 22px 16px 34px; font-size: .8rem; line-height: 1.45; }
+      .toast {
+        left: 12px; right: 12px; bottom: 14px;
+        max-width: none;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .shell { width: min(100% - 18px, var(--max)); }
+      .hero-stat span { font-size: .54rem; }
+      .s-tab { padding: 7px 9px; font-size: .7rem; }
+      .card-pad { padding: 16px 12px; }
+      .scale { gap: 4px; }
+      .scale label { height: 44px; font-size: .86rem; }
+      .scale-legend { gap: 4px; }
+      .scale-item { padding: 8px 3px; min-height: 76px; }
+      .scale-item .val { width: 28px; height: 28px; font-size: .86rem; }
+      .scale-item .lbl { font-size: .58rem; line-height: 1.12; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
     @page {
       size: A4;
       margin: 15mm 14mm 16mm;
@@ -975,7 +1174,7 @@
           Diagnóstico de reputación profesional
         </div>
         <h1>SOMOS<br><em>G·E·N·I·O·S</em></h1>
-        <p class="hero-desc">Mide las seis conductas que definen cómo te ven en la sala donde se toman las decisiones que importan. Responde lo que realmente haces, no lo que crees que deberías hacer.</p>
+        <p class="hero-desc">Evalúa las seis conductas que construyen tu reputación profesional. Responde desde tu comportamiento real de las últimas semanas, no desde tu intención ni desde tu mejor día. El resultado te mostrará tu fortaleza, tu letra de entrada y un plan concreto para avanzar.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#diagnostico">Empezar diagnóstico</a>
           <button class="btn btn-ghost-white" id="btnScrollResults" type="button">Ver resultado en vivo</button>
@@ -998,7 +1197,7 @@
       <a class="s-tab active" href="#diagnostico">Diagnóstico</a>
       <a class="s-tab" href="#resultado">Resultado</a>
       <a class="s-tab" href="#plan">Plan 6 semanas</a>
-      <a class="s-tab" href="#mejorar">Tu letra de entrada</a>
+      <a class="s-tab" href="#mejorar">Entrada</a>
     </div>
     <div class="sticky-progress">
       <div class="sp-track"><div class="sp-fill" id="spFill"></div></div>
@@ -1014,14 +1213,18 @@
     <!-- INTRO CARD -->
     <section class="card card-pad" id="intro">
       <div class="eyebrow">Cómo funciona</div>
-      <h2 style="margin-bottom:10px;">Responde las 24 afirmaciones</h2>
-      <p class="small" style="margin-bottom:16px;">Cada respuesta mide una conducta observable, no intención ni potencial. Tus respuestas se guardan localmente en este navegador y no se envían a ningún servidor.</p>
+      <h2 style="margin-bottom:10px;">Instrucciones para responder</h2>
+      <p class="small" style="margin-bottom:16px;">Lee cada afirmación y marca del 1 al 5 según la frecuencia con que esa conducta aparece en tu trabajo real. No respondas desde lo que sabes, lo que valoras o lo que te gustaría hacer: responde desde lo que otros podrían observar en tu comportamiento habitual.</p>
       <div class="scale-legend">
         <div class="scale-item"><span class="val">1</span><span class="lbl">Casi nunca</span></div>
         <div class="scale-item"><span class="val">2</span><span class="lbl">Pocas veces</span></div>
         <div class="scale-item"><span class="val">3</span><span class="lbl">Algunas veces</span></div>
         <div class="scale-item"><span class="val">4</span><span class="lbl">Con frecuencia</span></div>
         <div class="scale-item"><span class="val">5</span><span class="lbl">Siempre o casi siempre</span></div>
+      </div>
+      <div class="next-block" style="margin-top:16px;">
+        <span class="next-label">Instrucción clave</span>
+        <div class="next-text">Si dudas entre dos números, elige el más honesto, no el más aspiracional. El diagnóstico funciona mejor cuando mide tu promedio, no tu potencial. Tus respuestas quedan guardadas solo en este navegador y no se envían a ningún servidor.</div>
       </div>
     </section>
 
@@ -1030,7 +1233,8 @@
       <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px;">
         <div>
           <div class="eyebrow">Diagnóstico G.E.N.I.O.S.</div>
-          <h2>Completa tu medición</h2>
+          <h2>Evalúa tu conducta real</h2>
+          <p class="small" style="margin-top:6px; max-width:640px;">Responde las 24 afirmaciones con calma. No hay respuestas buenas o malas: cada número sirve para mostrar qué conducta ya deja evidencia y cuál necesita más práctica.</p>
         </div>
         <button class="btn btn-danger btn-sm" id="btnReset" type="button">Reiniciar</button>
       </div>
@@ -1045,7 +1249,7 @@
       <div id="completeBanner" class="complete-banner">
         <div class="complete-icon">🎯</div>
         <h3>¡Diagnóstico completo!</h3>
-        <p>Tu hexágono, perfil y plan de 6 semanas están listos. Revisa el panel a la derecha.</p>
+        <p>Tu hexágono, perfil y plan de 6 semanas están listos. Revisa primero tu letra de entrada: ahí está tu mayor oportunidad de avance.</p>
       </div>
 
       <div id="questionContainer"></div>
@@ -1055,7 +1259,7 @@
     <section class="card card-pad" id="plan">
       <div class="eyebrow">Plan de 6 semanas</div>
       <h2>Una letra por semana</h2>
-      <p class="small" style="margin-top:6px;" id="planIntro">Completa el diagnóstico para personalizar tu plan.</p>
+      <p class="small" style="margin-top:6px;" id="planIntro">Completa las 24 respuestas para activar un plan simple: una conducta G.E.N.I.O.S. por semana, empezando por tu principal oportunidad.</p>
       <div class="plan-grid" id="planGrid"></div>
     </section>
 
@@ -1063,7 +1267,7 @@
     <section class="card card-pad" id="mejorar">
       <div class="eyebrow">Cómo mejorar</div>
       <h2>Tu letra de entrada</h2>
-      <p class="small" style="margin-top:6px;" id="entryIntro">Completa el diagnóstico para ver acciones concretas.</p>
+      <p class="small" style="margin-top:6px;" id="entryIntro">Cuando termines, esta sección te mostrará tu letra de entrada y acciones concretas para convertir intención en evidencia visible.</p>
       <div class="actions-list" id="entryActions"></div>
     </section>
 
@@ -1088,17 +1292,17 @@
           <div class="kpi"><span>Puntaje</span><b id="kpiScore">0</b><small>máx. 120</small></div>
           <div class="kpi"><span>Nivel</span><b id="kpiLevel">—</b><small id="kpiLevelName">Completa</small></div>
         </div>
-        <div class="quote-block" id="levelQuote">Responde las 24 afirmaciones para ver tu nivel y tu frase.</div>
+        <div class="quote-block" id="levelQuote">Responde las 24 afirmaciones para descubrir tu nivel, tu frase guía y tu punto de avance.</div>
         <div class="info-row">
           <div class="info-box">
             <span class="label">Tu fortaleza</span>
             <div class="val" id="strengthText">—</div>
-            <p>Mayor promedio.</p>
+            <p>Conducta que hoy aparece con más fuerza.</p>
           </div>
           <div class="info-box">
             <span class="label">Tu foco</span>
             <div class="val" id="focusText">—</div>
-            <p>Letra de entrada.</p>
+            <p>Conducta con mayor espacio de mejora.</p>
           </div>
         </div>
       </div>
@@ -1127,21 +1331,21 @@
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm.75 8.75h-1.5v-1.5h1.5v1.5zm0-3h-1.5V5h1.5v2.75z" fill="currentColor"/></svg>
           Riesgo
         </span>
-        <div class="next-text" id="riskText">Completa el diagnóstico para ver tu riesgo.</div>
+        <div class="next-text" id="riskText">Completa el diagnóstico para identificar el riesgo profesional que conviene prevenir.</div>
       </div>
       <div class="next-block">
         <span class="next-label">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L10 6H15L11 9.5L12.5 14.5L8 11.5L3.5 14.5L5 9.5L1 6H6L8 1Z" fill="currentColor"/></svg>
           Prioridad
         </span>
-        <div class="next-text" id="priorityText">Completa el diagnóstico para ver tu prioridad.</div>
+        <div class="next-text" id="priorityText">Completa el diagnóstico para definir la prioridad que más puede mover tu reputación.</div>
       </div>
       <div class="next-block">
         <span class="next-label">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm.75 9.5h-1.5v-4.5h1.5v4.5zm0-6h-1.5v-1.5h1.5v1.5z" fill="currentColor"/></svg>
           Pregunta de avance
         </span>
-        <div class="next-text" id="questionText">Completa el diagnóstico para ver tu pregunta.</div>
+        <div class="next-text" id="questionText">Completa el diagnóstico para recibir una pregunta de avance clara y accionable.</div>
       </div>
     </section>
 
@@ -1152,7 +1356,7 @@
       <div class="profile-banner" id="profileBanner">
         <div class="profile-name-label">Perfil sugerido</div>
         <div class="profile-name" id="profileName">Completa las 24 respuestas</div>
-        <div class="profile-meta" id="profileBody">El sistema sugerirá un perfil a partir de tus seis promedios. No es una etiqueta fija.</div>
+        <div class="profile-meta" id="profileBody">El sistema sugerirá un perfil a partir de tus seis promedios. Úsalo como orientación práctica, no como etiqueta fija.</div>
       </div>
       <div class="report-actions">
         <button class="btn btn-outline btn-sm" id="btnCopy" type="button">📋 Copiar reporte</button>
@@ -1167,25 +1371,25 @@
 <!-- FOOTER -->
 <footer class="footer">
   <div class="shell">
-    Basado en el libro <em>«Somos G.E.N.I.O.S.»</em> de Kevin Lück · <a href="https://somosgenios.com" target="_blank" rel="noopener">somosgenios.com</a>
+    Basado en el libro <em>«Somos G.E.N.I.O.S.»</em> de Kevin Lück · <a href="https://www.instagram.com/somosgenios/" target="_blank" rel="noopener">@somosgenios</a>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-  const STORAGE_KEY = 'somos_genios_webapp_v2';
-  const PLAN_KEY    = 'somos_genios_plan_v2';
+  const STORAGE_KEY = 'somos_genios_webapp_v3';
+  const PLAN_KEY    = 'somos_genios_plan_v3';
 
   const dimensions = [
     {
       letter: 'G', name: 'Generar valor', etiqueta: 'VALOR',
       plan: 'Define qué decisión habilita cada entrega. Pasa de informar a entregar algo accionable.',
       questions: [
-        'Antes de comenzar un entregable, me pregunto qué decisión, solución o avance debe producir.',
-        'Conecto mis tareas con el objetivo final del equipo, no solo con la instrucción que recibí.',
-        'Transformo información o actividad en una recomendación o siguiente paso concreto.',
-        'Puedo explicar qué cambió para otros gracias a mi trabajo.'
+        'Antes de entregar, pienso para qué le sirve a otros.',
+        'Busco el resultado, no solo la tarea.',
+        'Convierto información en un paso claro.',
+        'Puedo decir qué cambió gracias a mi trabajo.'
       ],
       actions: [
         { title: 'Identifica al receptor', body: 'En cada entrega escribe en una línea quién la usará y qué decisión necesita tomar. Antes de enviar pregúntate: ¿esto le permite decidir, o solo le da datos?' },
@@ -1198,10 +1402,10 @@
       letter: 'E', name: 'Escuchar para entender', etiqueta: 'ESCUCHAR',
       plan: 'Practica el silencio de tres segundos y verifica lo que entendiste antes de opinar.',
       questions: [
-        'Espero antes de responder, incluso cuando creo haber comprendido lo que la otra persona quiere decir.',
-        'Intento identificar la intención y las preocupaciones detrás de las palabras.',
-        'Hago preguntas antes de proponer una solución.',
-        'Después de una conversación importante, puedo resumir con claridad lo que la otra persona necesitaba realmente.'
+        'Me detengo y pienso antes de responder.',
+        'Busco entender qué necesita la otra persona.',
+        'Pregunto antes de proponer.',
+        'Puedo resumir lo que la otra persona necesita.'
       ],
       actions: [
         { title: 'El silencio de tres segundos', body: 'Antes de responder en reuniones, cuenta hasta tres. Deja que el otro termine de verdad.' },
@@ -1214,10 +1418,10 @@
       letter: 'N', name: 'Nivel de involucramiento', etiqueta: 'INVOLUCRAMIENTO',
       plan: 'Hazte cargo de algo que mejore el resultado aunque no sea tu función —proponiendo, no invadiendo—.',
       questions: [
-        'Cuando detecto un problema que afecta el resultado, lo comunico aunque no corresponda directamente a mi función.',
-        'Propongo o doy un primer paso cuando identifico algo que puede mejorar el trabajo.',
-        'Me siento responsable de la calidad del resultado completo, no únicamente de la parte que me asignaron.',
-        'Durante las últimas cuatro semanas hice algo útil para el resultado sin esperar que alguien me lo pidiera.'
+        'Si veo un problema, lo digo.',
+        'Si algo se puede mejorar, propongo cómo empezar.',
+        'Me hago responsable del resultado completo.',
+        'Tomo iniciativa con aportes útiles sin que me lo pidan.'
       ],
       actions: [
         { title: 'Conecta con el objetivo', body: 'Para cada tarea escribe cómo se conecta con el resultado final del equipo, no solo con tu entregable.' },
@@ -1230,10 +1434,10 @@
       letter: 'I', name: 'Intención en el detalle', etiqueta: 'DETALLE',
       plan: 'Antes de cerrar algo, anticipa las dudas que generará y cuídalo aunque nadie importante lo revise.',
       questions: [
-        'Antes de entregar algo importante, reviso cómo será recibido y utilizado por la otra persona.',
-        'Anticipo las dudas, objeciones o preguntas que puede generar mi trabajo.',
-        'Reviso cifras, nombres, fechas, fuentes y versiones antes de una entrega importante.',
-        'Mis entregables importantes pueden comprenderse y utilizarse sin depender de explicaciones adicionales.'
+        'Antes de entregar, verifico que se entienda.',
+        'Anticipo dudas sobre mi trabajo.',
+        'Verifico cifras, nombres y fechas.',
+        'Mis entregas se entienden solas.'
       ],
       actions: [
         { title: 'Que no necesite explicación', body: 'Antes de cerrar, revisa que tu trabajo se entienda y se use sin que tú tengas que explicarlo.' },
@@ -1246,10 +1450,10 @@
       letter: 'O', name: 'Obsesión por crecer', etiqueta: 'CRECER',
       plan: 'Elige esta semana la tarea incómoda donde está el aprendizaje y pide feedback sobre lo que haces mal.',
       questions: [
-        'Actualmente estoy desarrollando de manera activa una habilidad profesional concreta.',
-        'Dedico tiempo deliberado a practicar algo que todavía no domino.',
-        'Busco retroalimentación honesta sobre mis puntos ciegos, no solo confirmación de lo que hago bien.',
-        'Puedo identificar con precisión una capacidad en la que estoy quedando atrás respecto de las necesidades de mi entorno.'
+        'Desarrollo activamente una habilidad.',
+        'Practico algo que aún no domino.',
+        'Pido feedback honesto.',
+        'Sé qué debo mejorar.'
       ],
       actions: [
         { title: 'Una tarea incómoda', body: 'Elige algo que todavía no dominas y dedícale tiempo deliberado esta semana.' },
@@ -1262,10 +1466,10 @@
       letter: 'S', name: 'Sostener la consistencia', etiqueta: 'CONSISTENCIA',
       plan: 'Define tu mínimo no negociable y sostenlo en tu peor día. Eres tan confiable como tu peor día.',
       questions: [
-        'Mi estándar de trabajo no depende completamente de mi motivación o estado de ánimo.',
-        'Durante mis semanas más difíciles, sostengo al menos los compromisos mínimos que definí.',
-        'Las personas que trabajan conmigo saben qué pueden esperar de mí.',
-        'Si alguien revisara mis últimas cuatro semanas, encontraría un patrón confiable, no solamente algunos días extraordinarios.'
+        'Mantengo mi estándar incluso en semanas difíciles.',
+        'En semanas difíciles, cumplo lo prometido.',
+        'La gente sabe qué esperar de mí.',
+        'Mantengo mi estándar en el tiempo.'
       ],
       actions: [
         { title: 'Define tu mínimo', body: 'Escribe un mínimo no negociable semanal, visible y verificable.' },
@@ -1491,7 +1695,7 @@
     document.getElementById('kpiScore').textContent     = total;
     document.getElementById('kpiLevel').textContent     = complete ? level.num : '—';
     document.getElementById('kpiLevelName').textContent = complete ? level.name : 'Completa';
-    document.getElementById('levelQuote').textContent   = complete ? `"${level.phrase}"` : 'Responde las 24 afirmaciones para ver tu nivel y tu frase.';
+    document.getElementById('levelQuote').textContent   = complete ? `"${level.phrase}"` : 'Responde las 24 afirmaciones para descubrir tu nivel, tu frase guía y tu punto de avance.';
 
     const strength = complete ? dimScores[strengthIndex] : null;
     const focus    = complete ? dimScores[focusIndex]    : null;
@@ -1499,9 +1703,9 @@
     document.getElementById('focusText').textContent    = focus    ? `${focus.letter} · ${focus.name}`       : '—';
 
     const risk = complete ? riskTable[level.num] : null;
-    document.getElementById('riskText').textContent     = risk ? risk.riesgo    : 'Completa el diagnóstico para ver tu riesgo.';
-    document.getElementById('priorityText').textContent = risk ? risk.prioridad : 'Completa el diagnóstico para ver tu prioridad.';
-    document.getElementById('questionText').textContent = risk ? risk.pregunta  : 'Completa el diagnóstico para ver tu pregunta.';
+    document.getElementById('riskText').textContent     = risk ? risk.riesgo    : 'Completa el diagnóstico para identificar el riesgo profesional que conviene prevenir.';
+    document.getElementById('priorityText').textContent = risk ? risk.prioridad : 'Completa el diagnóstico para definir la prioridad que más puede mover tu reputación.';
+    document.getElementById('questionText').textContent = risk ? risk.pregunta  : 'Completa el diagnóstico para recibir una pregunta de avance clara y accionable.';
 
     const profile = complete ? profiles[profileIndex] : null;
     document.getElementById('profileName').textContent  = profile ? profile.name : 'Completa las 24 respuestas';
@@ -1591,7 +1795,7 @@
   /* ── PLAN INTRO ── */
   function updatePlanIntro({ complete, dimScores, focusIndex }) {
     const el = document.getElementById('planIntro');
-    if (!complete) { el.textContent = 'Completa el diagnóstico (24 respuestas) para personalizar tu plan.'; return; }
+    if (!complete) { el.textContent = 'Completa las 24 respuestas para activar un plan simple: una conducta G.E.N.I.O.S. por semana, empezando por tu principal oportunidad.'; return; }
     const focus = dimScores[focusIndex];
     el.textContent = `Tu letra más baja fue ${focus.letter} · ${focus.name}. En la semana correspondiente, pon tu mayor atención.`;
   }
@@ -1601,7 +1805,7 @@
     const intro = document.getElementById('entryIntro');
     const root  = document.getElementById('entryActions');
     root.innerHTML = '';
-    if (!complete) { intro.textContent = 'Completa el diagnóstico para ver acciones concretas.'; return; }
+    if (!complete) { intro.textContent = 'Cuando termines, esta sección te mostrará tu letra de entrada y acciones concretas para convertir intención en evidencia visible.'; return; }
     const focus = dimScores[focusIndex];
     intro.textContent = `Tu letra de entrada es ${focus.letter} · ${focus.name}. Practica estas cuatro conductas, una por semana:`;
     focus.actions.forEach((action, i) => {
@@ -1641,7 +1845,7 @@
       `Punto de entrada del perfil: ${profile.entrada}`, `Pregunta clave del perfil: ${profile.pregunta}`,
       '', `Letra de entrada: ${focus.letter} · ${focus.name}`);
     focus.actions.forEach((a, i) => lines.push(`${i+1}. ${a.title}: ${a.body}`));
-    lines.push('', 'somosgenios.com');
+    lines.push('', '@somosgenios');
     return lines.join('\n');
   }
 
@@ -1673,13 +1877,13 @@
               <div class="pdf-eyebrow">Resumen ejecutivo</div>
               <h2>Tu diagnóstico G.E.N.I.O.S.</h2>
             </div>
-            <div class="pdf-small">somosgenios.com</div>
+            <div class="pdf-small">@somosgenios</div>
           </div>`;
 
     if (!complete) {
       html += `
           <div class="pdf-muted-box">
-            Para generar un PDF completo y personalizado, responde las 24 afirmaciones del diagnóstico. Actualmente llevas ${answered} de 24 respuestas.
+            Para generar un PDF completo y personalizado, responde las 24 afirmaciones del diagnóstico con la escala 1 a 5. Actualmente llevas ${answered} de 24 respuestas.
           </div>
         </section>
       </article>`;
@@ -1786,7 +1990,7 @@
 
     html += `
           </div>
-          <div class="pdf-footer-note">Basado en el libro «Somos G.E.N.I.O.S.» de Kevin Lück · somosgenios.com</div>
+          <div class="pdf-footer-note">Basado en el libro «Somos G.E.N.I.O.S.» de Kevin Lück · @somosgenios</div>
         </section>
       </article>`;
 
