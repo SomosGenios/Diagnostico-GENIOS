@@ -299,6 +299,43 @@
     }
     .scale-item .lbl { display: block; width: 100%; text-align: center; font-size: .72rem; color: var(--muted); line-height: 1.2; }
 
+    /* ── PARTICIPANT NAME ── */
+    .name-panel {
+      border: 1px solid rgba(28,51,92,.10);
+      background: linear-gradient(135deg, rgba(28,51,92,.045), rgba(184,138,59,.06));
+      border-radius: 18px;
+      padding: 16px;
+      display: grid;
+      gap: 8px;
+      margin: 0 0 18px;
+    }
+    .name-panel label {
+      display: grid;
+      gap: 8px;
+      font-weight: 900;
+      color: var(--ink);
+      font-size: .9rem;
+    }
+    .name-panel input {
+      width: 100%;
+      border: 1.5px solid rgba(28,51,92,.14);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: #ffffff;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .name-panel input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(184,138,59,.14);
+    }
+    .name-panel .hint {
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+
     /* ── PROGRESS ── */
     .progress-wrap { display: grid; gap: 8px; margin-bottom: 20px; }
     .progress-meta {
@@ -941,7 +978,7 @@
 
       .pdf-cover-meta {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 10px;
         margin-top: 22px;
       }
@@ -1238,6 +1275,14 @@
         </div>
         <button class="btn btn-danger btn-sm" id="btnReset" type="button">Reiniciar</button>
       </div>
+      <div class="name-panel" id="namePanel">
+        <label for="participantName">
+          Nombre del participante
+          <input id="participantName" name="participantName" type="text" autocomplete="name" maxlength="80" placeholder="Escribe tu nombre antes de comenzar" />
+        </label>
+        <p class="hint">Tu nombre aparecerá en el resultado, el reporte copiado y el PDF descargable. Se guarda solo en este navegador.</p>
+      </div>
+
       <div class="progress-wrap" aria-live="polite">
         <div class="progress-meta">
           <span class="small"><strong id="answeredText">0 de 24 respondidas</strong></span>
@@ -1248,7 +1293,7 @@
 
       <div id="completeBanner" class="complete-banner">
         <div class="complete-icon">🎯</div>
-        <h3>¡Diagnóstico completo!</h3>
+        <h3 id="completeTitle">¡Diagnóstico completo!</h3>
         <p>Tu hexágono, perfil y plan de 6 semanas están listos. Revisa primero tu letra de entrada: ahí está tu mayor oportunidad de avance.</p>
       </div>
 
@@ -1282,7 +1327,7 @@
       <div class="result-header">
         <div>
           <div class="eyebrow">Tu resultado</div>
-          <h3>En tiempo real</h3>
+          <h3 id="resultTitle">En tiempo real</h3>
         </div>
         <span class="live-pill"><span class="live-dot"></span> En vivo</span>
       </div>
@@ -1380,6 +1425,7 @@
 <script>
   const STORAGE_KEY = 'somos_genios_webapp_v3';
   const PLAN_KEY    = 'somos_genios_plan_v3';
+  const NAME_KEY    = 'somos_genios_participant_name_v1';
 
   const dimensions = [
     {
@@ -1518,6 +1564,7 @@
 
   let answers  = loadJSON(STORAGE_KEY, {});
   let planDone = loadJSON(PLAN_KEY, {});
+  let participantName = localStorage.getItem(NAME_KEY) || '';
 
   /* ── UTILITIES ── */
   function loadJSON(key, fallback) {
@@ -1525,6 +1572,19 @@
   }
   function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(answers)); }
   function savePlan()  { localStorage.setItem(PLAN_KEY,    JSON.stringify(planDone)); }
+  function saveName()  { localStorage.setItem(NAME_KEY, participantName); }
+  function getParticipantName() { return participantName.trim(); }
+
+  function initNameInput() {
+    const input = document.getElementById('participantName');
+    if (!input) return;
+    input.value = participantName;
+    input.addEventListener('input', e => {
+      participantName = e.target.value;
+      saveName();
+      updateAll();
+    });
+  }
 
   /* ── RENDER QUESTIONS ── */
   function renderQuestions() {
@@ -1677,6 +1737,9 @@
 
   function updateCompleteBanner({ complete }) {
     const banner = document.getElementById('completeBanner');
+    const title = document.getElementById('completeTitle');
+    const participant = getParticipantName();
+    if (title) title.textContent = participant ? `¡Diagnóstico completo, ${participant}!` : '¡Diagnóstico completo!';
     banner.classList.toggle('show', complete);
   }
 
@@ -1692,6 +1755,10 @@
   }
 
   function updateResult({ complete, total, level, dimScores, focusIndex, strengthIndex, profileIndex }) {
+    const participant = getParticipantName();
+    const resultTitle = document.getElementById('resultTitle');
+    if (resultTitle) resultTitle.textContent = participant ? `Resultado de ${participant}` : 'En tiempo real';
+
     document.getElementById('kpiScore').textContent     = total;
     document.getElementById('kpiLevel').textContent     = complete ? level.num : '—';
     document.getElementById('kpiLevelName').textContent = complete ? level.name : 'Completa';
@@ -1830,7 +1897,10 @@
   function buildReportText() {
     const state = calculate();
     const { complete, total, answered, level, dimScores, focusIndex, strengthIndex, profileIndex } = state;
-    const lines = ['SOMOS G.E.N.I.O.S. · Reporte de diagnóstico', ''];
+    const participant = getParticipantName();
+    const lines = ['SOMOS G.E.N.I.O.S. · Reporte de diagnóstico'];
+    if (participant) lines.push(`Participante: ${participant}`);
+    lines.push('');
     lines.push(`Respondidas: ${answered}/24`, `Puntaje: ${total}/120`);
     if (!complete) { lines.push('Resultado: diagnóstico incompleto.'); return lines.join('\n'); }
     const focus    = dimScores[focusIndex];
@@ -1853,6 +1923,8 @@
     const state = calculate();
     const { complete, total, answered, level, dimScores, focusIndex, strengthIndex, profileIndex } = state;
     const date = new Date().toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' });
+    const participant = getParticipantName();
+    const participantLabel = participant ? participant : 'Sin nombre';
     const scoreLabel = complete ? `${total}/120` : `${answered}/24`;
     const coverSubtitle = complete
       ? 'Tu mapa de reputación profesional, nivel, foco de entrada y plan de acción personalizado.'
@@ -1865,6 +1937,7 @@
           <h1>SOMOS<br><span>G.E.N.I.O.S.</span></h1>
           <p>${coverSubtitle}</p>
           <div class="pdf-cover-meta">
+            <div class="pdf-cover-box"><small>Participante</small><strong>${escapeHTML(participantLabel)}</strong></div>
             <div class="pdf-cover-box"><small>Fecha</small><strong>${escapeHTML(date)}</strong></div>
             <div class="pdf-cover-box"><small>Resultado</small><strong>${escapeHTML(scoreLabel)}</strong></div>
             <div class="pdf-cover-box"><small>Nivel</small><strong>${complete ? `${level.num} · ${escapeHTML(level.name)}` : 'Pendiente'}</strong></div>
@@ -1875,7 +1948,7 @@
           <div class="pdf-title-row">
             <div>
               <div class="pdf-eyebrow">Resumen ejecutivo</div>
-              <h2>Tu diagnóstico G.E.N.I.O.S.</h2>
+              <h2>${participant ? `Diagnóstico de ${escapeHTML(participant)}` : 'Tu diagnóstico G.E.N.I.O.S.'}</h2>
             </div>
             <div class="pdf-small">@somosgenios</div>
           </div>`;
@@ -2078,6 +2151,7 @@
 
   renderQuestions();
   renderPlan();
+  initNameInput();
   initEvents();
   initScrollSpy();
   updateAll();
